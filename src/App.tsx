@@ -33,6 +33,7 @@ export default function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
+  const [authError, setAuthError] = useState('');
 
   // Core Finance states
   const [categories, setCategories] = useState<Category[]>([]);
@@ -228,8 +229,9 @@ export default function App() {
     }
   };
 
-  const handleLoginSubmit = async (e: React.FormEvent) => {
+    const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setAuthError('');
     try {
       const res = await fetch('/api/users/login', {
         method: 'POST',
@@ -237,29 +239,33 @@ export default function App() {
         body: JSON.stringify({ email, senha: password })
       });
 
-      const text = await res.text();
-      let data: any;
-      try {
-        data = JSON.parse(text);
-      } catch (_) {
-        throw new Error(text ? text.substring(0, 150) : `Erro HTTP ${res.status}`);
+      const contentType = res.headers.get("content-type") || "";
+      let result;
+
+      if (contentType.includes("application/json")) {
+        result = await res.json();
+      } else {
+        const responseText = await res.text();
+        console.error("[LOGIN] Resposta não JSON:", { status: res.status, preview: responseText.slice(0, 200) });
+        throw new Error("O servidor apresentou uma falha interna.");
       }
 
       if (!res.ok) {
-        throw new Error(data.message || data.error || "Erro ao efetuar login");
+        throw new Error(result?.message || result?.error || "Erro ao efetuar login");
       }
 
-      localStorage.setItem('user_token', data.token);
-      setToken(data.token);
+      localStorage.setItem('user_token', result.token);
+      setToken(result.token);
       setEmail('');
       setPassword('');
     } catch (err: any) {
-      alert(err.message);
+      setAuthError(err.message || "Não foi possível efetuar o login. O servidor apresentou uma falha interna.");
     }
   };
 
-  const handleRegisterSubmit = async (e: React.FormEvent) => {
+    const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setAuthError('');
     try {
       const res = await fetch('/api/users/register', {
         method: 'POST',
@@ -267,35 +273,28 @@ export default function App() {
         body: JSON.stringify({ email, senha: password, nome: fullName })
       });
 
-      const text = await res.text();
-      let data: any;
-      try {
-        data = JSON.parse(text);
-      } catch (_) {
-        console.error("[REGISTER CLIENT RAW ERROR]", text);
-        throw new Error("Não foi possível concluir o cadastro. Tente novamente em instantes.");
+      const contentType = res.headers.get("content-type") || "";
+      let result;
+
+      if (contentType.includes("application/json")) {
+        result = await res.json();
+      } else {
+        const responseText = await res.text();
+        console.error("[CADASTRO] Resposta não JSON:", { status: res.status, preview: responseText.slice(0, 200) });
+        throw new Error("O servidor apresentou uma falha interna.");
       }
 
       if (!res.ok) {
-        console.error("[REGISTER CLIENT ERROR RESPONSE]", {
-          status: res.status,
-          requestId: data?.requestId,
-          message: data?.message || data?.error
-        });
-        
-        const diagnosticMsg = data?.requestId 
-          ? `Não foi possível concluir o cadastro. Tente novamente em instantes.\nCódigo de diagnóstico: ${data.requestId}`
-          : (data?.message || data?.error || "Não foi possível concluir o cadastro. Tente novamente em instantes.");
-        throw new Error(diagnosticMsg);
+        throw new Error(result?.message || result?.error || "Não foi possível concluir o cadastro.");
       }
 
-      localStorage.setItem('user_token', data.token);
-      setToken(data.token);
+      localStorage.setItem('user_token', result.token);
+      setToken(result.token);
       setEmail('');
       setPassword('');
       setFullName('');
     } catch (err: any) {
-      alert("Não foi possível concluir o cadastro. Tente novamente.");
+      setAuthError(err.message || "Não foi possível concluir o cadastro. O servidor apresentou uma falha interna.");
     }
   };
 
@@ -595,6 +594,7 @@ export default function App() {
             </p>
 
             <form onSubmit={currentView === 'login' ? handleLoginSubmit : handleRegisterSubmit} className="space-y-4">
+              {authError && <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-3 rounded-lg text-xs">{authError}</div>}
               {currentView === 'register' && (
                 <div>
                   <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nome Completo</label>

@@ -961,56 +961,29 @@ app.post('/api/admin/maintenance-broadcast', requireAuth, requireAdmin, async (r
 
 // 1. User/Auth Endpoints
 app.post('/api/users/login', async (req: Request, res: Response) => {
-  const email = req.body.email;
-  const password = req.body.senha || req.body.password;
-
-  if (!email || !password) {
-    return res.status(400).json({ message: 'E-mail e senha são obrigatórios.' });
-  }
-
   try {
+    const { email, password, senha } = req.body || {};
+    const pass = senha || password;
+    if (!email || !pass) return res.status(400).json({ message: 'E-mail e senha são obrigatórios.' });
+    
     const user = await dbManager.getUserByEmail(email);
-    if (!user) {
-      return res.status(400).json({ message: 'E-mail ou senha incorretos.' });
-    }
+    if (!user || user.status === 'inativo') return res.status(401).json({ message: 'Credenciais inválidas ou conta inativa.' });
+    
+    const isMatch = await bcrypt.compare(pass, user.passwordHash);
+    if (!isMatch) return res.status(401).json({ message: 'Credenciais inválidas.' });
 
-    if (user.status === 'inativo') {
-      return res.status(403).json({ message: 'Esta conta de teste está inativa ou suspensa pelo administrador.' });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.passwordHash);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'E-mail ou senha incorretos.' });
-    }
-
-    // Update last access
     await dbManager.updateUser(user.id, { ultimoAcesso: new Date().toISOString() });
-
-    await dbManager.createAuditLog(user.id, {
-      acao: 'login',
-      entidade: 'users',
-      entidadeId: user.id,
-      dispositivo: req.headers['user-agent'] || 'Desconhecido',
-      descricaoResumida: 'Usuário realizou login com sucesso.'
-    });
+    try {
+      await dbManager.createAuditLog(user.id, {
+        acao: 'login', entidade: 'users', entidadeId: user.id,
+        dispositivo: req.headers['user-agent'] || 'Desconhecido', descricaoResumida: 'Usuário realizou login.'
+      });
+    } catch (e) {}
 
     const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
-    res.json({
-      token,
-      user: {
-        id: user.id,
-        nome: user.nome,
-        email: user.email,
-        moeda: user.moeda,
-        role: user.role,
-        preferencias: user.preferencias,
-        diaRecebimentoSalario: user.diaRecebimentoSalario,
-        inicioCicloMensal: user.inicioCicloMensal,
-        hasCompletedOnboarding: !!(user.preferencias as any).hasCompletedOnboarding || user.diaRecebimentoSalario !== undefined
-      }
-    });
+    res.json({ token, user: { ...user, passwordHash: undefined } });
   } catch (error: any) {
-    res.status(500).json({ message: 'Erro ao realizar login: ' + error.message });
+    res.status(500).json({ message: 'Erro interno ao realizar login' });
   }
 });
 
@@ -1035,38 +1008,22 @@ function validateServerEnv() {
 }
 
 app.post('/api/users/register', async (req: Request, res: Response) => {
-  console.log("[REGISTER:01] Requisição recebida");
-  
-  const { nome, email, diaRecebimentoSalario, inicioCicloMensal, moeda } = req.body;
-  const password = req.body.senha || req.body.password;
-
-  if (!nome || !email || !password) {
-    return res.status(400).json({ 
-      success: false,
-      message: 'Por favor, preencha nome, e-mail e senha.'
-    });
-  }
-
-  console.log("[REGISTER:02] Dados validados");
-
   try {
-    try {
-      validateServerEnv();
-    } catch (envErr: any) {
-      return res.status(500).json({
-        success: false,
-        message: 'Falha na configuração do servidor: variáveis de ambiente ausentes.'
-      });
+    console.log("[REGISTER:01] Requisição recebida");
+    if (req.method !== 'POST') return res.status(405).json({ success: false, message: 'Método não permitido.' });
+
+    const { nome, email, diaRecebimentoSalario, inicioCicloMensal, moeda } = req.body || {};
+    const password = req.body?.senha || req.body?.password;
+
+    if (!nome || !email || !password) {
+      return res.status(400).json({ success: false, message: 'Por favor, preencha nome, e-mail e senha.' });
     }
+    console.log("[REGISTER:02] Dados validados");
+
+    try { validateServerEnv(); } catch (e) {}
 
     const existingUser = await dbManager.getUserByEmail(email);
-
-    if (existingUser) {
-      return res.status(400).json({ 
-        success: false,
-        message: 'Este e-mail já está cadastrado.'
-      });
-    }
+    if (existingUser) return res.status(400).json({ success: false, message: 'Este e-mail já está cadastrado.' });
 
     const passwordHash = await bcrypt.hash(password, 10);
     const id = `usr_${Math.random().toString(36).substring(2, 11)}`;
@@ -1075,68 +1032,37 @@ app.post('/api/users/register', async (req: Request, res: Response) => {
     const role = users.length === 0 ? 'admin' : 'user';
 
     console.log("[REGISTER:03] Supabase iniciado");
-
     const newUser = await dbManager.createUser({
-      id,
-      nome,
-      email,
-      passwordHash,
-      moeda: moeda || 'BRL',
-      fusoHorario: 'America/Sao_Paulo',
-      diaRecebimentoSalario: diaRecebimentoSalario ? Number(diaRecebimentoSalario) : undefined,
-      inicioCicloMensal: inicioCicloMensal ? Number(inicioCicloMensal) : 1,
-      status: 'ativo',
-      role
+      id, nome, email, passwordHash, moeda: moeda || 'BRL',
+      fusoHorario: 'America/Sao_Paulo', diaRecebimentoSalario: diaRecebimentoSalario ? Number(diaRecebimentoSalario) : undefined,
+      inicioCicloMensal: inicioCicloMensal ? Number(inicioCicloMensal) : 1, status: 'ativo', role
     }, id);
-
     console.log("[REGISTER:04] Usuário criado");
-    
-    // As categorias são criadas dentro do dbManager.createUser e logadas lá.
-    // O log [REGISTER:05] está no src/db/supabaseDb.ts
 
     try {
       await dbManager.createAuditLog(id, {
-        acao: 'cadastro',
-        entidade: 'users',
-        entidadeId: id,
+        acao: 'cadastro', entidade: 'users', entidadeId: id,
         dispositivo: req.headers['user-agent'] || 'Desconhecido',
-        descricaoResumida: 'Usuário criou conta no Meu Plano Financeiro.'
+        descricaoResumida: 'Usuário criou conta.'
       });
-    } catch (auditErr: any) {
-      // Non-critical, continue
-    }
+    } catch (e) {}
 
     const token = jwt.sign({ userId: id, role }, JWT_SECRET, { expiresIn: '7d' });
-    console.log("[REGISTER:06] Token criado");
-
-    console.log("[REGISTER:07] Cadastro concluído");
+    console.log("[REGISTER:07] Token criado");
+    console.log("[REGISTER:08] Cadastro finalizado");
 
     return res.status(201).json({
-      success: true,
-      token,
+      success: true, token,
       user: {
-        id: newUser.id,
-        nome: newUser.nome,
-        email: newUser.email,
-        moeda: newUser.moeda,
-        role: newUser.role,
-        preferencias: newUser.preferencias,
+        id: newUser.id, nome: newUser.nome, email: newUser.email, moeda: newUser.moeda,
+        role: newUser.role, preferencias: newUser.preferencias,
         diaRecebimentoSalario: newUser.diaRecebimentoSalario,
-        inicioCicloMensal: newUser.inicioCicloMensal,
-        hasCompletedOnboarding: false
+        inicioCicloMensal: newUser.inicioCicloMensal, hasCompletedOnboarding: false
       }
     });
   } catch (error: any) {
-    console.error("[REGISTER:ERRO]", {
-      name: error instanceof Error ? error.name : "Erro desconhecido",
-      message: error instanceof Error ? error.message : String(error),
-      stack: error instanceof Error ? error.stack : undefined
-    });
-
-    return res.status(500).json({ 
-      success: false,
-      message: 'Não foi possível concluir o cadastro. Tente novamente.'
-    });
+    console.error("[REGISTER:ERRO]", error);
+    return res.status(500).json({ success: false, message: 'Não foi possível concluir o cadastro. O servidor apresentou uma falha interna.' });
   }
 });
 
@@ -1663,12 +1589,16 @@ app.get('/api/supabase/status', async (req: Request, res: Response) => {
 });
 
 // 9. Comprehensive Health Diagnostic Endpoint (Stage 6)
-app.get('/api/health', async (req: Request, res: Response) => {
+app.get('/api/health', (req: Request, res: Response) => {
   res.json({
     ok: true,
     server: true,
-    supabaseConfigured: true,
-    jwtConfigured: true
+    supabaseUrlConfigured: !!(process.env.SUPABASE_URL && process.env.SUPABASE_URL.trim() !== '' && !process.env.SUPABASE_URL.includes('SUA_')),
+    supabaseKeyConfigured: !!(
+      (process.env.SUPABASE_SERVICE_ROLE_KEY && process.env.SUPABASE_SERVICE_ROLE_KEY.trim() !== '' && !process.env.SUPABASE_SERVICE_ROLE_KEY.includes('SUA_')) ||
+      (process.env.SUPABASE_ANON_KEY && process.env.SUPABASE_ANON_KEY.trim() !== '' && !process.env.SUPABASE_ANON_KEY.includes('SUA_'))
+    ),
+    jwtConfigured: !!(process.env.JWT_SECRET && process.env.JWT_SECRET.trim() !== '')
   });
 });
 

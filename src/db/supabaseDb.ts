@@ -15,13 +15,6 @@ import type {
   AiMessage 
 } from '../types/finance.ts';
 
-const SUPABASE_URL = (process.env.SUPABASE_URL || '').trim();
-const SUPABASE_SERVICE_KEY = (process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
-const SUPABASE_ANON_KEY = (process.env.SUPABASE_ANON_KEY || '').trim();
-
-// Prefer service role key for server operations to bypass RLS, fallback to anon key
-const ACTIVE_KEY = SUPABASE_SERVICE_KEY || SUPABASE_ANON_KEY;
-
 function isValidUrl(str: string): boolean {
   try {
     new URL(str);
@@ -31,33 +24,45 @@ function isValidUrl(str: string): boolean {
   }
 }
 
-const checkSupabaseConfigured = (): boolean => {
+export const isSupabaseConfigured = (): boolean => {
+  const url = process.env.SUPABASE_URL?.trim() || '';
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() || process.env.SUPABASE_ANON_KEY?.trim() || '';
+  
   return (
-    !!SUPABASE_URL && 
-    SUPABASE_URL !== 'SUA_SUPABASE_URL' && 
-    !SUPABASE_URL.includes('SUA_') && 
-    isValidUrl(SUPABASE_URL) && 
-    !!ACTIVE_KEY && 
-    ACTIVE_KEY !== 'SUA_SUPABASE_ANON_KEY' &&
-    !ACTIVE_KEY.includes('SUA_')
+    !!url && 
+    url !== 'SUA_SUPABASE_URL' && 
+    !url.includes('SUA_') && 
+    isValidUrl(url) && 
+    !!key && 
+    key !== 'SUA_SUPABASE_ANON_KEY' &&
+    !key.includes('SUA_')
   );
 };
 
 let supabaseClient: any = null;
 
 export const getSupabase = () => {
-  if (!supabaseClient && checkSupabaseConfigured()) {
-    try {
-      supabaseClient = createClient(SUPABASE_URL, ACTIVE_KEY, {
-        auth: {
-          persistSession: false
-        }
-      });
-    } catch (error) {
-      console.error('Failed to initialize Supabase client:', error);
-    }
+  if (supabaseClient) return supabaseClient;
+
+  if (!isSupabaseConfigured()) {
+    return null;
   }
-  return supabaseClient;
+
+  const url = process.env.SUPABASE_URL?.trim() || '';
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() || process.env.SUPABASE_ANON_KEY?.trim() || '';
+
+  try {
+    supabaseClient = createClient(url, key, {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+      },
+    });
+    return supabaseClient;
+  } catch (error) {
+    console.error('Failed to initialize Supabase client:', error);
+    return null;
+  }
 };
 
 export const supabase = new Proxy({}, { 
@@ -71,10 +76,6 @@ export const supabase = new Proxy({}, {
     return value;
   } 
 }) as SupabaseClient | any;
-
-export const isSupabaseConfigured = (): boolean => {
-  return !!getSupabase();
-};
 
 // Helper to log errors or throw them
 async function handleSupabaseResult<T>(promise: PromiseLike<{ data: T | null; error: any }>): Promise<T> {
