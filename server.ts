@@ -3,7 +3,6 @@ import path from 'path';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
-import { createServer as createViteServer } from 'vite';
 import { dbManager } from './src/db/localDb.ts';
 import { groqService } from './src/lib/groq.ts';
 import { isSupabaseConfigured, supabase } from './src/db/supabaseDb.ts';
@@ -1642,7 +1641,8 @@ async function startServer() {
   await ensureTestUser();
 
   if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
+    const { createServer } = await import('vite');
+    const vite = await createServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
