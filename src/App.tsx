@@ -247,7 +247,7 @@ export default function App() {
       } else {
         const responseText = await res.text();
         console.error("[LOGIN] Resposta não JSON:", { status: res.status, preview: responseText.slice(0, 200) });
-        throw new Error("O servidor apresentou uma falha interna.");
+        throw new Error(`O servidor apresentou uma falha interna. Status: ${res.status} - ${responseText.slice(0, 100)}`);
       }
 
       if (!res.ok) {
@@ -281,7 +281,7 @@ export default function App() {
       } else {
         const responseText = await res.text();
         console.error("[CADASTRO] Resposta não JSON:", { status: res.status, preview: responseText.slice(0, 200) });
-        throw new Error("O servidor apresentou uma falha interna.");
+        throw new Error(`O servidor apresentou uma falha interna. Status: ${res.status} - ${responseText.slice(0, 100)}`);
       }
 
       if (!res.ok) {
