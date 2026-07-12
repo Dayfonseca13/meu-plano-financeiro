@@ -5,7 +5,7 @@ import { supabaseDbManager, isSupabaseConfigured } from './supabaseDb.ts';
 
 
 let DB_DIR = process.env.VERCEL
-  ? path.join('/tmp', 'data')
+  ? '/tmp'
   : path.join(process.cwd(), 'data');
 let DB_FILE = path.join(DB_DIR, 'database.json');
 
@@ -18,9 +18,9 @@ function initializeDb() {
   } catch (err: any) {
     console.error(`Failed to create DB_DIR at ${DB_DIR}:`, err);
     // If it's a read-only filesystem error or other write error, fall back to /tmp
-    if (DB_DIR !== path.join('/tmp', 'data')) {
-      console.warn("Falling back to /tmp/data for writeable database directory.");
-      DB_DIR = path.join('/tmp', 'data');
+    if (DB_DIR !== '/tmp') {
+      console.warn("Falling back to /tmp for writeable database directory.");
+      DB_DIR = '/tmp';
       DB_FILE = path.join(DB_DIR, 'database.json');
       try {
         if (!fs.existsSync(DB_DIR)) {
@@ -56,8 +56,8 @@ function initializeDb() {
   } catch (err) {
     console.error(`Failed to write DB_FILE at ${DB_FILE}:`, err);
     // If fallback is needed
-    if (DB_DIR !== path.join('/tmp', 'data')) {
-      DB_DIR = path.join('/tmp', 'data');
+    if (DB_DIR !== '/tmp') {
+      DB_DIR = '/tmp';
       DB_FILE = path.join(DB_DIR, 'database.json');
       initializeDb(); // retry with /tmp
     }
@@ -105,6 +105,8 @@ async function writeDb(schema: DbSchema): Promise<void> {
     } catch (error) {
       console.error("Atomic database write failed:", error);
     }
+  }).catch((err) => {
+    console.error("Unhandleable error in writeQueue chain:", err);
   });
   return writeQueue;
 }

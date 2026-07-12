@@ -14,21 +14,48 @@ import {
   AiMessage 
 } from '../types/finance.ts';
 
-const SUPABASE_URL = process.env.SUPABASE_URL || '';
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || '';
+const SUPABASE_URL = (process.env.SUPABASE_URL || '').trim();
+const SUPABASE_ANON_KEY = (process.env.SUPABASE_ANON_KEY || '').trim();
 
-export const isSupabaseConfigured = (): boolean => {
-  return !!SUPABASE_URL && !!SUPABASE_ANON_KEY;
+function isValidUrl(str: string): boolean {
+  try {
+    new URL(str);
+    return str.startsWith('http://') || str.startsWith('https://');
+  } catch (_) {
+    return false;
+  }
+}
+
+const checkSupabaseConfigured = (): boolean => {
+  return (
+    !!SUPABASE_URL && 
+    SUPABASE_URL !== 'SUA_SUPABASE_URL' && 
+    !SUPABASE_URL.includes('SUA_') && 
+    isValidUrl(SUPABASE_URL) && 
+    !!SUPABASE_ANON_KEY && 
+    SUPABASE_ANON_KEY !== 'SUA_SUPABASE_ANON_KEY' &&
+    !SUPABASE_ANON_KEY.includes('SUA_')
+  );
 };
 
-// Initialize the Supabase Client
-export const supabase = isSupabaseConfigured()
-  ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+let supabaseClient: any = null;
+if (checkSupabaseConfigured()) {
+  try {
+    supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
       auth: {
         persistSession: false
       }
-    })
-  : null;
+    });
+  } catch (error) {
+    console.error('Failed to initialize Supabase client:', error);
+  }
+}
+
+export const supabase = supabaseClient;
+
+export const isSupabaseConfigured = (): boolean => {
+  return !!supabase;
+};
 
 // Helper to log errors or throw them
 async function handleSupabaseResult<T>(promise: PromiseLike<{ data: T | null; error: any }>): Promise<T> {
