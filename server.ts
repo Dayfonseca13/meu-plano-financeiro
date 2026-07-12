@@ -6,9 +6,9 @@ import type { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { dbManager } from './src/db/localDb';
-import { groqService } from './src/lib/groq';
-import { isSupabaseConfigured, supabase } from './src/db/supabaseDb';
+import { dbManager } from './src/db/localDb.js';
+import { groqService } from './src/lib/groq.js';
+import { isSupabaseConfigured, supabase } from './src/db/supabaseDb.js';
 
 const app = express();
 const PORT = 3000;
