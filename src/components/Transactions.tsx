@@ -3,7 +3,7 @@ import {
   Plus, Calendar, CreditCard, ChevronDown, Check, Trash2, Edit2, 
   Layers, ArrowUpRight, ArrowDownRight, Tag, Bookmark, MapPin, Sparkles, Filter 
 } from 'lucide-react';
-import { Income, Expense, Category } from '../types/finance.ts';
+import type { Income, Expense, Category } from '../types/finance.ts';
 
 interface TransactionsProps {
   incomes: Income[];

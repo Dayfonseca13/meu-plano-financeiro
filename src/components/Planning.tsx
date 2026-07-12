@@ -3,7 +3,7 @@ import {
   PiggyBank, ArrowRight, ShieldCheck, CheckCircle2, AlertTriangle, 
   PlusCircle, Edit2, Bookmark, Save, Trash2, ArrowUpRight, FolderPlus 
 } from 'lucide-react';
-import { Category, Expense, MonthlyBudget, BudgetItem } from '../types/finance.ts';
+import type { Category, Expense, MonthlyBudget, BudgetItem } from '../types/finance.ts';
 
 interface PlanningProps {
   categories: Category[];

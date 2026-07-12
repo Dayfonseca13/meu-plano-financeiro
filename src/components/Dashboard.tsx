@@ -3,7 +3,7 @@ import {
   PiggyBank, ArrowUpRight, ArrowDownRight, Calendar, AlertTriangle, 
   CheckCircle, PlusCircle, Bell, ArrowRight, ShieldCheck, ChevronRight, Activity 
 } from 'lucide-react';
-import { Income, Expense, Category, Goal, MonthlyBudget, BudgetItem } from '../types/finance.ts';
+import type { Income, Expense, Category, Goal, MonthlyBudget, BudgetItem } from '../types/finance.ts';
 
 interface DashboardProps {
   incomes: Income[];

@@ -3,7 +3,7 @@ import {
   Sparkles, Send, Bot, User, Trash2, ArrowRight, Loader2, 
   WifiOff, AlertCircle, CheckCircle2, TrendingUp, HelpCircle 
 } from 'lucide-react';
-import { Category, Income, Expense, Goal, AiMessage } from '../types/finance.ts';
+import type { Category, Income, Expense, Goal, AiMessage } from '../types/finance.ts';
 
 interface AiAssistantProps {
   token: string;

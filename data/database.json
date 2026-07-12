@@ -2343,7 +2343,22 @@
   "notifications": [],
   "push_subscriptions": [],
   "recurring_items": [],
-  "ai_conversations": [],
+  "ai_conversations": [
+    {
+      "id": "conv_suredypto",
+      "userId": "usr_w9m9s0s7m",
+      "titulo": "Conversa Financeira",
+      "criadoEm": "2026-07-12T18:29:16.574Z",
+      "atualizadoEm": "2026-07-12T18:29:16.574Z"
+    },
+    {
+      "id": "conv_tzn22dka2",
+      "userId": "usr_w9m9s0s7m",
+      "titulo": "Conversa Financeira",
+      "criadoEm": "2026-07-12T18:29:16.584Z",
+      "atualizadoEm": "2026-07-12T18:29:16.584Z"
+    }
+  ],
   "ai_messages": [],
   "sync_operations": [],
   "audit_logs": [

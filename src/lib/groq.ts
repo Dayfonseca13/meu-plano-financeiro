@@ -1,4 +1,4 @@
-import { Income, Expense, Category, Goal } from '../types/finance.ts';
+import type { Income, Expense, Category, Goal } from '../types/finance.ts';
 
 // Groq API Details
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { DbSchema, User, Category, Income, Expense, MonthlyBudget, BudgetItem, Goal, GoalContribution, Notification, PushSubscriptionModel, RecurringItem, AiConversation, AiMessage, SyncOperation, AuditLog } from '../types/finance.ts';
+import type { DbSchema, User, Category, Income, Expense, MonthlyBudget, BudgetItem, Goal, GoalContribution, Notification, PushSubscriptionModel, RecurringItem, AiConversation, AiMessage, SyncOperation, AuditLog } from '../types/finance.ts';
 import { supabaseDbManager, isSupabaseConfigured } from './supabaseDb.ts';
 import { defaultCategories } from './constants.ts';
 

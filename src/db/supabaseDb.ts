@@ -1,5 +1,6 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { 
+import { createClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type { 
   User, 
   Category, 
   Income, 
@@ -86,7 +87,7 @@ async function handleSupabaseResult<T>(promise: PromiseLike<{ data: T | null; er
 }
 
 // Default fallback categories
-import { defaultCategories } from './constants.ts';
+import type { defaultCategories } from './constants.ts';
 
 export const supabaseDbManager = {
   // 1. USER METHODS

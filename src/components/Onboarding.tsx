@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Sparkles, ArrowRight, ArrowLeft, Heart, DollarSign, Target, CheckCircle2, Loader2, Landmark } from 'lucide-react';
-import { Category } from '../types/finance.ts';
+import type { Category } from '../types/finance.ts';
 
 interface OnboardingProps {
   categories: Category[];

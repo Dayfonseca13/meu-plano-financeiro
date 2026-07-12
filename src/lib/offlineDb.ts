@@ -1,4 +1,4 @@
-import { SyncOperation } from '../types/finance.ts';
+import type { SyncOperation } from '../types/finance.ts';
 
 const DB_NAME = 'MeuPlanoFinanceiroLocal';
 const DB_VERSION = 1;

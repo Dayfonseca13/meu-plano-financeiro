@@ -3,7 +3,7 @@ import {
   PiggyBank, Calendar, Trophy, ChevronRight, Plus, Save, 
   Trash2, TrendingUp, CheckCircle, Clock, Sparkles, PlusCircle 
 } from 'lucide-react';
-import { Goal, GoalContribution } from '../types/finance.ts';
+import type { Goal, GoalContribution } from '../types/finance.ts';
 
 interface GoalsProps {
   goals: Goal[];
