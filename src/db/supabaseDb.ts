@@ -88,7 +88,7 @@ async function handleSupabaseResult<T>(promise: PromiseLike<{ data: T | null; er
 }
 
 // Default fallback categories
-import { defaultCategories } from './constants';
+import { defaultCategories } from './constants.js';
 
 export const supabaseDbManager = {
   // 1. USER METHODS
