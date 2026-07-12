@@ -1,14 +1,13 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import dotenv from 'dotenv';
 import { dbManager } from './src/db/localDb.ts';
 import { groqService } from './src/lib/groq.ts';
 import { isSupabaseConfigured, supabase } from './src/db/supabaseDb.ts';
-
-
-dotenv.config();
 
 const app = express();
 const PORT = 3000;
@@ -1014,26 +1013,82 @@ app.post('/api/users/login', async (req: Request, res: Response) => {
   }
 });
 
+function validateServerEnv() {
+  const required = [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "JWT_SECRET"
+  ];
+
+  const missing = required.filter((key) => {
+    const val = process.env[key];
+    return !val || val === 'SUA_SUPABASE_URL' || val === 'SUA_SUPABASE_ANON_KEY';
+  });
+
+  if (missing.length > 0) {
+    throw new Error(
+      `Variáveis obrigatórias ausentes: ${missing.join(", ")}`
+    );
+  }
+}
+
 app.post('/api/users/register', async (req: Request, res: Response) => {
+  const requestId = globalThis.crypto?.randomUUID() || Math.random().toString(36).substring(2, 11);
+  console.log(`[REGISTER:${requestId}:01] Função invocada`);
+
   const { nome, email, diaRecebimentoSalario, inicioCicloMensal, moeda } = req.body;
   const password = req.body.senha || req.body.password;
 
+  console.log(`[REGISTER:${requestId}:02] Corpo recebido`, { nome, email });
+
   if (!nome || !email || !password) {
-    return res.status(400).json({ message: 'Por favor, preencha nome, e-mail e senha.' });
+    console.warn(`[REGISTER:${requestId}:03-FAIL] Nome, e-mail ou senha ausentes`);
+    return res.status(400).json({ 
+      success: false,
+      message: 'Por favor, preencha nome, e-mail e senha.',
+      requestId
+    });
   }
 
+  console.log(`[REGISTER:${requestId}:03] Validação básica concluída`);
+
   try {
-    const existingUser = await dbManager.getUserByEmail(email);
-    if (existingUser) {
-      return res.status(400).json({ message: 'Este e-mail já está cadastrado.' });
+    // Stage 9 Env Validation
+    try {
+      validateServerEnv();
+      console.log(`[REGISTER:${requestId}:04] Validação de variáveis de ambiente concluída com sucesso`);
+    } catch (envErr: any) {
+      console.error(`[REGISTER:${requestId}:04-ERROR] Falha de validação de ambiente:`, envErr.message);
+      return res.status(500).json({
+        success: false,
+        message: 'Falha na configuração do servidor: variáveis de ambiente ausentes.',
+        requestId
+      });
     }
 
+    console.log(`[REGISTER:${requestId}:05] Consulta de e-mail iniciada`);
+    const existingUser = await dbManager.getUserByEmail(email);
+    console.log(`[REGISTER:${requestId}:06] Consulta de e-mail concluída. Usuário já cadastrado?`, !!existingUser);
+
+    if (existingUser) {
+      console.warn(`[REGISTER:${requestId}:06-FAIL] Usuário com e-mail ${email} já existe`);
+      return res.status(400).json({ 
+        success: false,
+        message: 'Este e-mail já está cadastrado.',
+        requestId
+      });
+    }
+
+    console.log(`[REGISTER:${requestId}:07] Hash de senha iniciado`);
     const passwordHash = await bcrypt.hash(password, 10);
+    console.log(`[REGISTER:${requestId}:08] Hash de senha concluído`);
+
     const id = `usr_${Math.random().toString(36).substring(2, 11)}`;
     
     const users = await dbManager.getUsers();
     const role = users.length === 0 ? 'admin' : 'user';
 
+    console.log(`[REGISTER:${requestId}:09-START] Iniciando criação do usuário no banco com ID: ${id}, role: ${role}`);
     const newUser = await dbManager.createUser({
       id,
       nome,
@@ -1045,8 +1100,9 @@ app.post('/api/users/register', async (req: Request, res: Response) => {
       inicioCicloMensal: inicioCicloMensal ? Number(inicioCicloMensal) : 1,
       status: 'ativo',
       role
-    });
+    }, requestId);
 
+    console.log(`[REGISTER:${requestId}:13] Criação de log de auditoria iniciada`);
     await dbManager.createAuditLog(id, {
       acao: 'cadastro',
       entidade: 'users',
@@ -1054,9 +1110,14 @@ app.post('/api/users/register', async (req: Request, res: Response) => {
       dispositivo: req.headers['user-agent'] || 'Desconhecido',
       descricaoResumida: 'Usuário criou conta no Meu Plano Financeiro.'
     });
+    console.log(`[REGISTER:${requestId}:14] Log de auditoria criado com sucesso`);
 
+    console.log(`[REGISTER:${requestId}:15] Assinando token JWT`);
     const token = jwt.sign({ userId: id, role }, JWT_SECRET, { expiresIn: '7d' });
-    res.status(201).json({
+    console.log(`[REGISTER:${requestId}:16] Cadastro completo. Enviando resposta de sucesso.`);
+
+    return res.status(201).json({
+      success: true,
       token,
       user: {
         id: newUser.id,
@@ -1071,7 +1132,16 @@ app.post('/api/users/register', async (req: Request, res: Response) => {
       }
     });
   } catch (error: any) {
-    res.status(500).json({ message: 'Erro ao cadastrar usuário: ' + error.message });
+    console.error(`[REGISTER:${requestId}:FATAL] Erro não tratado durante o cadastro:`, {
+      message: error.message,
+      stack: error.stack
+    });
+    return res.status(500).json({ 
+      success: false,
+      message: 'Não foi possível concluir o cadastro. Ocorreu um erro interno.',
+      error: error.message,
+      requestId
+    });
   }
 });
 
@@ -1595,6 +1665,84 @@ app.get('/api/supabase/status', async (req: Request, res: Response) => {
     canConnect,
     connectionError
   });
+});
+
+// 9. Comprehensive Health Diagnostic Endpoint (Stage 6)
+app.get('/api/health', async (req: Request, res: Response) => {
+  const checks = {
+    server: true,
+    supabaseUrlConfigured: false,
+    supabaseKeyConfigured: false,
+    jwtSecretConfigured: false,
+    supabaseConnection: false
+  };
+
+  try {
+    // 1. Env validation
+    const url = process.env.SUPABASE_URL;
+    const key = process.env.SUPABASE_ANON_KEY;
+    const secret = process.env.JWT_SECRET;
+
+    checks.supabaseUrlConfigured = !!url && url !== 'SUA_SUPABASE_URL' && !url.includes('SUA_') && url.trim().startsWith('https://');
+    checks.supabaseKeyConfigured = !!key && key !== 'SUA_SUPABASE_ANON_KEY' && !key.includes('SUA_');
+    checks.jwtSecretConfigured = !!secret && secret !== 'my_super_secret_jwt_key_123!' && secret.trim().length > 0;
+
+    if (!checks.supabaseUrlConfigured || !checks.supabaseKeyConfigured) {
+      return res.status(500).json({
+        ok: false,
+        stage: "env_validation",
+        message: "Variáveis do Supabase ausentes, mal formatadas ou usando valores padrão.",
+        checks
+      });
+    }
+
+    // 2. Supabase Client Check
+    const isConfigured = isSupabaseConfigured();
+    if (!isConfigured || !supabase) {
+      return res.status(500).json({
+        ok: false,
+        stage: "supabase_init",
+        message: "Cliente Supabase não pôde ser inicializado com as credenciais fornecidas.",
+        checks
+      });
+    }
+
+    // 3. Supabase Database Connection Check (Stage 10 verification)
+    try {
+      const { error } = await supabase.from('users').select('id').limit(1);
+      if (error) {
+        return res.status(500).json({
+          ok: false,
+          stage: "supabase_connection",
+          message: `Falha ao conectar ou consultar o Supabase: ${error.message}`,
+          checks
+        });
+      }
+      checks.supabaseConnection = true;
+    } catch (err: any) {
+      return res.status(500).json({
+        ok: false,
+        stage: "supabase_connection",
+        message: `Exceção ao testar consulta no Supabase: ${err.message}`,
+        checks
+      });
+    }
+
+    return res.json({
+      ok: true,
+      runtime: process.env.VERCEL ? "serverless" : "traditional",
+      environment: process.env.NODE_ENV || "production",
+      checks
+    });
+
+  } catch (err: any) {
+    return res.status(500).json({
+      ok: false,
+      stage: "general",
+      message: `Erro interno no endpoint de diagnóstico: ${err.message}`,
+      checks
+    });
+  }
 });
 
 // -----------------------------------------------------------------------------

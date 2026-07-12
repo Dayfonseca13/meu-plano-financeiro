@@ -68,7 +68,7 @@ async function handleSupabaseResult<T>(promise: PromiseLike<{ data: T | null; er
 }
 
 // Default fallback categories
-import { defaultCategories } from './localDb.ts';
+import { defaultCategories } from './constants.ts';
 
 export const supabaseDbManager = {
   // 1. USER METHODS
@@ -100,8 +100,13 @@ export const supabaseDbManager = {
     return data as User | undefined;
   },
 
-  async createUser(user: Omit<User, 'dataCriacao' | 'dataAtualizacao' | 'preferencias'>): Promise<User> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+  async createUser(user: Omit<User, 'dataCriacao' | 'dataAtualizacao' | 'preferencias'>, requestId?: string): Promise<User> {
+    const rId = requestId || 'unknown';
+    console.log(`[REGISTER:${rId}:09] Início de criação do usuário no banco (Supabase)`);
+    if (!supabase) {
+      console.error(`[REGISTER:${rId}:09-ERROR] Cliente Supabase não inicializado`);
+      throw new Error('Supabase client is not initialized.');
+    }
     
     const newUser: User = {
       ...user,
@@ -116,11 +121,21 @@ export const supabaseDbManager = {
     };
 
     // Insert user
-    await handleSupabaseResult(
-      supabase.from('users').insert([newUser])
-    );
+    try {
+      await handleSupabaseResult(
+        supabase.from('users').insert([newUser])
+      );
+      console.log(`[REGISTER:${rId}:10] Usuário criado no banco (Supabase) com id: ${newUser.id}`);
+    } catch (err: any) {
+      console.error(`[REGISTER:${rId}:10-ERROR] Falha ao inserir usuário no Supabase:`, {
+        message: err.message,
+        code: err?.code || 'N/A'
+      });
+      throw err;
+    }
 
     // Seed default categories in Supabase for this new user
+    console.log(`[REGISTER:${rId}:11] Seed de categorias iniciado`);
     const catInserts = defaultCategories.map((cat) => ({
       id: `cat_${Math.random().toString(36).substring(2, 11)}`,
       userId: newUser.id,
@@ -132,9 +147,18 @@ export const supabaseDbManager = {
       ordem: cat.ordem
     }));
 
-    await handleSupabaseResult(
-      supabase.from('categories').insert(catInserts)
-    );
+    try {
+      await handleSupabaseResult(
+        supabase.from('categories').insert(catInserts)
+      );
+      console.log(`[REGISTER:${rId}:12] Seed de categorias concluído com sucesso: ${catInserts.length} categorias criadas.`);
+    } catch (err: any) {
+      console.error(`[REGISTER:${rId}:12-ERROR] Seed de categorias falhou:`, {
+        message: err.message,
+        code: err?.code || 'N/A'
+      });
+      throw err;
+    }
 
     return newUser;
   },
@@ -546,6 +570,8 @@ export const supabaseDbManager = {
     // Fire and forget audit logs so they don't block user flow
     supabase.from('audit_logs').insert([newLog]).then(({ error }) => {
       if (error) console.error('Failed to create audit log in Supabase:', error);
+    }).catch((err) => {
+      console.error('Unhandled rejection in createAuditLog:', err);
     });
     return newLog;
   },

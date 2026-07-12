@@ -1,7 +1,7 @@
 import { PiggyBank, ArrowRight, ShieldCheck, TrendingUp, Sparkles, AlertCircle, Smartphone, WifiOff } from 'lucide-react';
 
 interface LandingPageProps {
-  onNavigate: (view: 'login' | 'register') => void;
+  onNavigate: (view: 'login' | 'register' | 'diagnostico') => void;
 }
 
 export default function LandingPage({ onNavigate }: LandingPageProps) {
@@ -159,7 +159,15 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
 
       {/* LEGAL FOOTER DISCLAIMER */}
       <footer className="max-w-7xl mx-auto w-full px-6 py-8 border-t border-slate-900 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-slate-400" id="landing-footer">
-        <p>© 2026 Meu Plano Financeiro. Todos os direitos reservados.</p>
+        <div className="flex flex-col gap-1 items-start">
+          <p>© 2026 Meu Plano Financeiro. Todos os direitos reservados.</p>
+          <button 
+            onClick={() => onNavigate('diagnostico')}
+            className="text-slate-500 hover:text-sky-400 font-medium transition-colors text-[11px] cursor-pointer"
+          >
+            Diagnóstico do Sistema 🔍
+          </button>
+        </div>
         <div className="flex items-start gap-2.5 max-w-md bg-slate-900/60 p-3 rounded-xl border border-slate-800/40" id="legal-disclaimer">
           <AlertCircle size={16} className="text-amber-500 shrink-0 mt-0.5" />
           <p className="leading-relaxed text-[11px]">

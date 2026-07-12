@@ -12,6 +12,7 @@ import Planning from './components/Planning.tsx';
 import Goals from './components/Goals.tsx';
 import AiAssistant from './components/AiAssistant.tsx';
 import SupabaseIntegration from './components/SupabaseIntegration.tsx';
+import { Diagnostics } from './components/Diagnostics.tsx';
 
 
 import { 
@@ -25,7 +26,7 @@ export default function App() {
   // Authentication & Session
   const [token, setToken] = useState<string>(localStorage.getItem('user_token') || '');
   const [userProfile, setUserProfile] = useState<User | null>(null);
-  const [currentView, setCurrentView] = useState<'landing' | 'login' | 'register' | 'onboarding' | 'main'>('landing');
+  const [currentView, setCurrentView] = useState<'landing' | 'login' | 'register' | 'onboarding' | 'main' | 'diagnostico'>('landing');
   const [activeTab, setActiveTab] = useState<string>('dashboard');
 
   // Form states for login/register
@@ -271,11 +272,21 @@ export default function App() {
       try {
         data = JSON.parse(text);
       } catch (_) {
-        throw new Error(text ? text.substring(0, 150) : `Erro HTTP ${res.status}`);
+        console.error("[REGISTER CLIENT RAW ERROR]", text);
+        throw new Error("Não foi possível concluir o cadastro. Tente novamente em instantes.");
       }
 
       if (!res.ok) {
-        throw new Error(data.message || data.error || "Erro no cadastro");
+        console.error("[REGISTER CLIENT ERROR RESPONSE]", {
+          status: res.status,
+          requestId: data?.requestId,
+          message: data?.message || data?.error
+        });
+        
+        const diagnosticMsg = data?.requestId 
+          ? `Não foi possível concluir o cadastro. Tente novamente em instantes.\nCódigo de diagnóstico: ${data.requestId}`
+          : (data?.message || data?.error || "Não foi possível concluir o cadastro. Tente novamente em instantes.");
+        throw new Error(diagnosticMsg);
       }
 
       localStorage.setItem('user_token', data.token);
@@ -554,6 +565,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#070913] text-slate-100 flex flex-col font-sans" id="app-root-shell">
+      {/* DIAGNOSTICS VIEW */}
+      {currentView === 'diagnostico' && (
+        <Diagnostics onBack={() => setCurrentView('landing')} />
+      )}
+
       {/* PUBLIC VIEWS: LANDING, LOGIN, REGISTER */}
       {currentView === 'landing' && (
         <LandingPage onNavigate={(view) => setCurrentView(view)} />

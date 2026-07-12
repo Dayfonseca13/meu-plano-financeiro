@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { DbSchema, User, Category, Income, Expense, MonthlyBudget, BudgetItem, Goal, GoalContribution, Notification, PushSubscriptionModel, RecurringItem, AiConversation, AiMessage, SyncOperation, AuditLog } from '../types/finance.ts';
 import { supabaseDbManager, isSupabaseConfigured } from './supabaseDb.ts';
+import { defaultCategories } from './constants.ts';
 
 
 let DB_DIR = process.env.VERCEL
@@ -111,34 +112,6 @@ async function writeDb(schema: DbSchema): Promise<void> {
   return writeQueue;
 }
 
-export const defaultCategories = [
-  { nome: 'Alimentação', icone: 'Utensils', tipo: 'despesa', ordem: 1 },
-  { nome: 'Moradia', icone: 'Home', tipo: 'despesa', ordem: 2 },
-  { nome: 'Transporte', icone: 'Car', tipo: 'despesa', ordem: 3 },
-  { nome: 'Saúde', icone: 'HeartPulse', tipo: 'despesa', ordem: 4 },
-  { nome: 'Educação', icone: 'GraduationCap', tipo: 'despesa', ordem: 5 },
-  { nome: 'Lazer', icone: 'Gamepad2', tipo: 'despesa', ordem: 6 },
-  { nome: 'Vestuário', icone: 'Shirt', tipo: 'despesa', ordem: 7 },
-  { nome: 'Cuidados Pessoais', icone: 'Sparkles', tipo: 'despesa', ordem: 8 },
-  { nome: 'Dívidas', icone: 'CreditCard', tipo: 'despesa', ordem: 9 },
-  { nome: 'Assinaturas', icone: 'Tv', tipo: 'despesa', ordem: 10 },
-  { nome: 'Impostos', icone: 'FileText', tipo: 'despesa', ordem: 11 },
-  { nome: 'Filhos', icone: 'Baby', tipo: 'despesa', ordem: 12 },
-  { nome: 'Animais', icone: 'PawPrint', tipo: 'despesa', ordem: 13 },
-  { nome: 'Doações', icone: 'Gift', tipo: 'despesa', ordem: 14 },
-  { nome: 'Viagens', icone: 'Plane', tipo: 'despesa', ordem: 15 },
-  { nome: 'Investimentos', icone: 'TrendingUp', tipo: 'despesa', ordem: 16 },
-  { nome: 'Reserva', icone: 'PiggyBank', tipo: 'despesa', ordem: 17 },
-  { nome: 'Compras', icone: 'ShoppingBag', tipo: 'despesa', ordem: 18 },
-  { nome: 'Serviços', icone: 'Wrench', tipo: 'despesa', ordem: 19 },
-  { nome: 'Outros', icone: 'HelpCircle', tipo: 'despesa', ordem: 20 },
-  // Receitas default
-  { nome: 'Salário', icone: 'Briefcase', tipo: 'receita', ordem: 1 },
-  { nome: 'Renda Extra', icone: 'DollarSign', tipo: 'receita', ordem: 2 },
-  { nome: 'Investimentos', icone: 'Percent', tipo: 'receita', ordem: 3 },
-  { nome: 'Presente', icone: 'Gift', tipo: 'receita', ordem: 4 }
-];
-
 const localDbManager = {
   // USER METHODS
   async getUsers(): Promise<User[]> {
@@ -156,7 +129,9 @@ const localDbManager = {
     return db.users.find(u => u.email.toLowerCase() === email.toLowerCase());
   },
 
-  async createUser(user: Omit<User, 'dataCriacao' | 'dataAtualizacao' | 'preferencias'>): Promise<User> {
+  async createUser(user: Omit<User, 'dataCriacao' | 'dataAtualizacao' | 'preferencias'>, requestId?: string): Promise<User> {
+    const rId = requestId || 'unknown';
+    console.log(`[REGISTER:${rId}:09] Início de criação do usuário no banco (LocalDb)`);
     const db = await readDb();
     const newUser: User = {
       ...user,
@@ -170,8 +145,10 @@ const localDbManager = {
       }
     };
     db.users.push(newUser);
+    console.log(`[REGISTER:${rId}:10] Usuário criado no banco (LocalDb) com id: ${newUser.id}`);
 
     // Seed default categories for this user
+    console.log(`[REGISTER:${rId}:11] Seed de categorias iniciado (LocalDb)`);
     defaultCategories.forEach((cat, index) => {
       const newCat: Category = {
         id: `cat_${Math.random().toString(36).substring(2, 11)}`,
@@ -185,6 +162,7 @@ const localDbManager = {
       };
       db.categories.push(newCat);
     });
+    console.log(`[REGISTER:${rId}:12] Seed de categorias concluído (LocalDb): ${defaultCategories.length} criadas`);
 
     await writeDb(db);
     return newUser;

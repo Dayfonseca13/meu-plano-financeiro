@@ -1,0 +1,27 @@
+export const defaultCategories = [
+  { nome: 'Alimentação', icone: 'Utensils', tipo: 'despesa', ordem: 1 },
+  { nome: 'Moradia', icone: 'Home', tipo: 'despesa', ordem: 2 },
+  { nome: 'Transporte', icone: 'Car', tipo: 'despesa', ordem: 3 },
+  { nome: 'Saúde', icone: 'HeartPulse', tipo: 'despesa', ordem: 4 },
+  { nome: 'Educação', icone: 'GraduationCap', tipo: 'despesa', ordem: 5 },
+  { nome: 'Lazer', icone: 'Gamepad2', tipo: 'despesa', ordem: 6 },
+  { nome: 'Vestuário', icone: 'Shirt', tipo: 'despesa', ordem: 7 },
+  { nome: 'Cuidados Pessoais', icone: 'Sparkles', tipo: 'despesa', ordem: 8 },
+  { nome: 'Dívidas', icone: 'CreditCard', tipo: 'despesa', ordem: 9 },
+  { nome: 'Assinaturas', icone: 'Tv', tipo: 'despesa', ordem: 10 },
+  { nome: 'Impostos', icone: 'FileText', tipo: 'despesa', ordem: 11 },
+  { nome: 'Filhos', icone: 'Baby', tipo: 'despesa', ordem: 12 },
+  { nome: 'Animais', icone: 'PawPrint', tipo: 'despesa', ordem: 13 },
+  { nome: 'Doações', icone: 'Gift', tipo: 'despesa', ordem: 14 },
+  { nome: 'Viagens', icone: 'Plane', tipo: 'despesa', ordem: 15 },
+  { nome: 'Investimentos', icone: 'TrendingUp', tipo: 'despesa', ordem: 16 },
+  { nome: 'Reserva', icone: 'PiggyBank', tipo: 'despesa', ordem: 17 },
+  { nome: 'Compras', icone: 'ShoppingBag', tipo: 'despesa', ordem: 18 },
+  { nome: 'Serviços', icone: 'Wrench', tipo: 'despesa', ordem: 19 },
+  { nome: 'Outros', icone: 'HelpCircle', tipo: 'despesa', ordem: 20 },
+  // Receitas default
+  { nome: 'Salário', icone: 'Briefcase', tipo: 'receita', ordem: 1 },
+  { nome: 'Renda Extra', icone: 'DollarSign', tipo: 'receita', ordem: 2 },
+  { nome: 'Investimentos', icone: 'Percent', tipo: 'receita', ordem: 3 },
+  { nome: 'Presente', icone: 'Gift', tipo: 'receita', ordem: 4 }
+];
