@@ -17,6 +17,18 @@
           // If window.fetch is non-configurable, defineProperty will fail, which is expected.
         }
 
+        // Also define on Window.prototype to intercept assignments if window.fetch is getter-only
+        try {
+          if (typeof Window !== 'undefined' && Window.prototype) {
+            Object.defineProperty(Window.prototype, 'fetch', {
+              get: function() { return fetchValue; },
+              set: function(val) { fetchValue = val; },
+              configurable: true,
+              enumerable: true
+            });
+          }
+        } catch (e) {}
+
         // Define a robust proxy to protect global aliases
         var globalProxy = new Proxy(window, {
           get: function(target, prop, receiver) {
