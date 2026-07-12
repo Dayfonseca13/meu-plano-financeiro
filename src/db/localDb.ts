@@ -162,7 +162,7 @@ const localDbManager = {
       };
       db.categories.push(newCat);
     });
-    console.log(`[REGISTER:${rId}:12] Seed de categorias concluído (LocalDb): ${defaultCategories.length} criadas`);
+    console.log("[REGISTER:05] Categorias criadas");
 
     await writeDb(db);
     return newUser;

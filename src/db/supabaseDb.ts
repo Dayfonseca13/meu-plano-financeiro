@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { 
   User, 
   Category, 
@@ -15,7 +15,11 @@ import {
 } from '../types/finance.ts';
 
 const SUPABASE_URL = (process.env.SUPABASE_URL || '').trim();
+const SUPABASE_SERVICE_KEY = (process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
 const SUPABASE_ANON_KEY = (process.env.SUPABASE_ANON_KEY || '').trim();
+
+// Prefer service role key for server operations to bypass RLS, fallback to anon key
+const ACTIVE_KEY = SUPABASE_SERVICE_KEY || SUPABASE_ANON_KEY;
 
 function isValidUrl(str: string): boolean {
   try {
@@ -32,29 +36,43 @@ const checkSupabaseConfigured = (): boolean => {
     SUPABASE_URL !== 'SUA_SUPABASE_URL' && 
     !SUPABASE_URL.includes('SUA_') && 
     isValidUrl(SUPABASE_URL) && 
-    !!SUPABASE_ANON_KEY && 
-    SUPABASE_ANON_KEY !== 'SUA_SUPABASE_ANON_KEY' &&
-    !SUPABASE_ANON_KEY.includes('SUA_')
+    !!ACTIVE_KEY && 
+    ACTIVE_KEY !== 'SUA_SUPABASE_ANON_KEY' &&
+    !ACTIVE_KEY.includes('SUA_')
   );
 };
 
 let supabaseClient: any = null;
-if (checkSupabaseConfigured()) {
-  try {
-    supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      auth: {
-        persistSession: false
-      }
-    });
-  } catch (error) {
-    console.error('Failed to initialize Supabase client:', error);
-  }
-}
 
-export const supabase = supabaseClient;
+export const getSupabase = () => {
+  if (!supabaseClient && checkSupabaseConfigured()) {
+    try {
+      supabaseClient = createClient(SUPABASE_URL, ACTIVE_KEY, {
+        auth: {
+          persistSession: false
+        }
+      });
+    } catch (error) {
+      console.error('Failed to initialize Supabase client:', error);
+    }
+  }
+  return supabaseClient;
+};
+
+export const supabase = new Proxy({}, { 
+  get(target, prop) { 
+    const client = getSupabase(); 
+    if (!client) return undefined;
+    const value = client[prop];
+    if (typeof value === 'function') {
+      return value.bind(client);
+    }
+    return value;
+  } 
+}) as SupabaseClient | any;
 
 export const isSupabaseConfigured = (): boolean => {
-  return !!supabase;
+  return !!getSupabase();
 };
 
 // Helper to log errors or throw them
@@ -73,7 +91,7 @@ import { defaultCategories } from './constants.ts';
 export const supabaseDbManager = {
   // 1. USER METHODS
   async getUsers(): Promise<User[]> {
-    if (!supabase) return [];
+    if (!getSupabase()) return [];
     const { data, error } = await supabase.from('users').select('*');
     if (error) {
       console.warn('Could not read users from Supabase, make sure schema is created:', error.message);
@@ -83,14 +101,14 @@ export const supabaseDbManager = {
   },
 
   async getUserById(id: string): Promise<User | undefined> {
-    if (!supabase) return undefined;
+    if (!getSupabase()) return undefined;
     const { data, error } = await supabase.from('users').select('*').eq('id', id).maybeSingle();
     if (error) throw error;
     return data as User | undefined;
   },
 
   async getUserByEmail(email: string): Promise<User | undefined> {
-    if (!supabase) return undefined;
+    if (!getSupabase()) return undefined;
     const { data, error } = await supabase
       .from('users')
       .select('*')
@@ -103,7 +121,7 @@ export const supabaseDbManager = {
   async createUser(user: Omit<User, 'dataCriacao' | 'dataAtualizacao' | 'preferencias'>, requestId?: string): Promise<User> {
     const rId = requestId || 'unknown';
     console.log(`[REGISTER:${rId}:09] Início de criação do usuário no banco (Supabase)`);
-    if (!supabase) {
+    if (!getSupabase()) {
       console.error(`[REGISTER:${rId}:09-ERROR] Cliente Supabase não inicializado`);
       throw new Error('Supabase client is not initialized.');
     }
@@ -151,20 +169,21 @@ export const supabaseDbManager = {
       await handleSupabaseResult(
         supabase.from('categories').insert(catInserts)
       );
-      console.log(`[REGISTER:${rId}:12] Seed de categorias concluído com sucesso: ${catInserts.length} categorias criadas.`);
+      console.log(`[REGISTER:05] Categorias criadas`);
     } catch (err: any) {
-      console.error(`[REGISTER:${rId}:12-ERROR] Seed de categorias falhou:`, {
+      console.error(`[REGISTER:ERRO] Seed de categorias falhou:`, {
+        name: err.name,
         message: err.message,
-        code: err?.code || 'N/A'
+        stack: err.stack
       });
-      throw err;
+      // Do not throw, allow user registration to complete without default categories
     }
 
     return newUser;
   },
 
   async updateUser(id: string, updates: Partial<User>): Promise<User> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     
     const { data, error } = await supabase
       .from('users')
@@ -181,7 +200,7 @@ export const supabaseDbManager = {
   },
 
   async deleteUser(id: string): Promise<void> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     await handleSupabaseResult(
       supabase.from('users').delete().eq('id', id)
     );
@@ -189,7 +208,7 @@ export const supabaseDbManager = {
 
   // 2. CATEGORIES
   async getCategories(userId: string): Promise<Category[]> {
-    if (!supabase) return [];
+    if (!getSupabase()) return [];
     const { data, error } = await supabase
       .from('categories')
       .select('*')
@@ -200,7 +219,7 @@ export const supabaseDbManager = {
   },
 
   async createCategory(userId: string, cat: Omit<Category, 'id' | 'userId'>): Promise<Category> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     const newCat = {
       ...cat,
       id: `cat_${Math.random().toString(36).substring(2, 11)}`,
@@ -213,7 +232,7 @@ export const supabaseDbManager = {
   },
 
   async updateCategory(userId: string, id: string, updates: Partial<Category>): Promise<Category> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     const { data, error } = await supabase
       .from('categories')
       .update(updates)
@@ -226,7 +245,7 @@ export const supabaseDbManager = {
   },
 
   async deleteCategory(userId: string, id: string): Promise<void> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     await handleSupabaseResult(
       supabase.from('categories').delete().eq('id', id).eq('userId', userId)
     );
@@ -234,7 +253,7 @@ export const supabaseDbManager = {
 
   // 3. INCOMES
   async getIncomes(userId: string): Promise<Income[]> {
-    if (!supabase) return [];
+    if (!getSupabase()) return [];
     const { data, error } = await supabase
       .from('incomes')
       .select('*')
@@ -245,7 +264,7 @@ export const supabaseDbManager = {
   },
 
   async createIncome(userId: string, inc: Omit<Income, 'id' | 'userId' | 'criadoEm' | 'atualizadoEm' | 'versao'>): Promise<Income> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     const newInc: Income = {
       ...inc,
       id: inc.grupoRecorrencia && (inc as any).id ? (inc as any).id : `inc_${Math.random().toString(36).substring(2, 11)}`,
@@ -261,7 +280,7 @@ export const supabaseDbManager = {
   },
 
   async updateIncome(userId: string, id: string, updates: Partial<Income>): Promise<Income> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     const { data, error } = await supabase
       .from('incomes')
       .update({
@@ -277,7 +296,7 @@ export const supabaseDbManager = {
   },
 
   async deleteIncome(userId: string, id: string): Promise<void> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     await handleSupabaseResult(
       supabase.from('incomes').delete().eq('id', id).eq('userId', userId)
     );
@@ -285,7 +304,7 @@ export const supabaseDbManager = {
 
   // 4. EXPENSES
   async getExpenses(userId: string): Promise<Expense[]> {
-    if (!supabase) return [];
+    if (!getSupabase()) return [];
     const { data, error } = await supabase
       .from('expenses')
       .select('*')
@@ -296,7 +315,7 @@ export const supabaseDbManager = {
   },
 
   async createExpense(userId: string, exp: Omit<Expense, 'id' | 'userId' | 'criadoEm' | 'atualizadoEm' | 'versao'>): Promise<Expense> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     const newExp: Expense = {
       ...exp,
       id: exp.grupoRecorrencia && (exp as any).id ? (exp as any).id : `exp_${Math.random().toString(36).substring(2, 11)}`,
@@ -312,7 +331,7 @@ export const supabaseDbManager = {
   },
 
   async updateExpense(userId: string, id: string, updates: Partial<Expense>): Promise<Expense> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     const { data, error } = await supabase
       .from('expenses')
       .update({
@@ -328,7 +347,7 @@ export const supabaseDbManager = {
   },
 
   async deleteExpense(userId: string, id: string): Promise<void> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     await handleSupabaseResult(
       supabase.from('expenses').delete().eq('id', id).eq('userId', userId)
     );
@@ -336,7 +355,7 @@ export const supabaseDbManager = {
 
   // 5. GOALS
   async getGoals(userId: string): Promise<Goal[]> {
-    if (!supabase) return [];
+    if (!getSupabase()) return [];
     const { data, error } = await supabase
       .from('goals')
       .select('*')
@@ -346,7 +365,7 @@ export const supabaseDbManager = {
   },
 
   async createGoal(userId: string, goal: Omit<Goal, 'id' | 'userId'>): Promise<Goal> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     const newGoal: Goal = {
       ...goal,
       id: `goal_${Math.random().toString(36).substring(2, 11)}`,
@@ -359,7 +378,7 @@ export const supabaseDbManager = {
   },
 
   async updateGoal(userId: string, id: string, updates: Partial<Goal>): Promise<Goal> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     const { data, error } = await supabase
       .from('goals')
       .update(updates)
@@ -372,14 +391,14 @@ export const supabaseDbManager = {
   },
 
   async deleteGoal(userId: string, id: string): Promise<void> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     await handleSupabaseResult(
       supabase.from('goals').delete().eq('id', id).eq('userId', userId)
     );
   },
 
   async createGoalContribution(userId: string, contrib: Omit<GoalContribution, 'id' | 'userId'>): Promise<GoalContribution> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     const newContrib: GoalContribution = {
       ...contrib,
       id: `gct_${Math.random().toString(36).substring(2, 11)}`,
@@ -412,7 +431,7 @@ export const supabaseDbManager = {
 
   // 6. MONTHLY BUDGETS & BUDGET ITEMS
   async getMonthlyBudgets(userId: string): Promise<any[]> {
-    if (!supabase) return [];
+    if (!getSupabase()) return [];
     // Fetch budgets
     const { data: budgets, error: budgetError } = await supabase
       .from('monthly_budgets')
@@ -446,7 +465,7 @@ export const supabaseDbManager = {
   },
 
   async saveMonthlyBudget(userId: string, budget: Omit<MonthlyBudget, 'id' | 'userId'>, items: Omit<BudgetItem, 'id' | 'monthlyBudgetId'>[]): Promise<any> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     
     // Check if budget exists for this month/year
     const { data: existingBudget } = await supabase
@@ -502,7 +521,7 @@ export const supabaseDbManager = {
 
   // 7. NOTIFICATIONS
   async getNotifications(userId: string): Promise<Notification[]> {
-    if (!supabase) return [];
+    if (!getSupabase()) return [];
     const { data, error } = await supabase
       .from('notifications')
       .select('*')
@@ -513,7 +532,7 @@ export const supabaseDbManager = {
   },
 
   async createNotification(userId: string, notif: Omit<Notification, 'id' | 'userId' | 'data' | 'lida'>): Promise<Notification> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     const newNotif: Notification = {
       ...notif,
       id: `not_${Math.random().toString(36).substring(2, 11)}`,
@@ -528,7 +547,7 @@ export const supabaseDbManager = {
   },
 
   async updateNotification(userId: string, id: string, updates: Partial<Notification>): Promise<Notification> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     const { data, error } = await supabase
       .from('notifications')
       .update(updates)
@@ -541,7 +560,7 @@ export const supabaseDbManager = {
   },
 
   async deleteNotification(userId: string, id: string): Promise<void> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     await handleSupabaseResult(
       supabase.from('notifications').delete().eq('id', id).eq('userId', userId)
     );
@@ -549,7 +568,7 @@ export const supabaseDbManager = {
 
   // 8. AUDIT LOGS
   async getAuditLogs(userId: string): Promise<AuditLog[]> {
-    if (!supabase) return [];
+    if (!getSupabase()) return [];
     const { data, error } = await supabase
       .from('audit_logs')
       .select('*')
@@ -560,7 +579,7 @@ export const supabaseDbManager = {
   },
 
   async createAuditLog(userId: string, log: Omit<AuditLog, 'id' | 'userId' | 'data'>): Promise<AuditLog> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     const newLog: AuditLog = {
       ...log,
       id: `log_${Math.random().toString(36).substring(2, 11)}`,
@@ -578,7 +597,7 @@ export const supabaseDbManager = {
 
   // 9. AI CONVERSATIONS
   async getAiConversations(userId: string): Promise<AiConversation[]> {
-    if (!supabase) return [];
+    if (!getSupabase()) return [];
     const { data, error } = await supabase
       .from('ai_conversations')
       .select('*')
@@ -589,7 +608,7 @@ export const supabaseDbManager = {
   },
 
   async createAiConversation(userId: string, title: string): Promise<AiConversation> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     const now = new Date().toISOString();
     const newConv: AiConversation = {
       id: `con_${Math.random().toString(36).substring(2, 11)}`,
@@ -605,7 +624,7 @@ export const supabaseDbManager = {
   },
 
   async getAiMessages(userId: string, conversationId: string): Promise<AiMessage[]> {
-    if (!supabase) return [];
+    if (!getSupabase()) return [];
     const { data, error } = await supabase
       .from('ai_messages')
       .select('*')
@@ -617,7 +636,7 @@ export const supabaseDbManager = {
   },
 
   async createAiMessage(userId: string, msg: Omit<AiMessage, 'id' | 'userId' | 'criadoEm'>): Promise<AiMessage> {
-    if (!supabase) throw new Error('Supabase client is not initialized.');
+    if (!getSupabase()) throw new Error('Supabase client is not initialized.');
     const newMsg: AiMessage = {
       ...msg,
       id: `msg_${Math.random().toString(36).substring(2, 11)}`,

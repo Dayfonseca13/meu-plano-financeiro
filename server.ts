@@ -1014,81 +1014,67 @@ app.post('/api/users/login', async (req: Request, res: Response) => {
 });
 
 function validateServerEnv() {
-  const required = [
-    "SUPABASE_URL",
-    "SUPABASE_ANON_KEY",
-    "JWT_SECRET"
-  ];
+  const url = process.env.SUPABASE_URL;
+  const anonKey = process.env.SUPABASE_ANON_KEY;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const jwtSecret = process.env.JWT_SECRET;
+  
+  const hasUrl = url && url !== 'SUA_SUPABASE_URL' && !url.includes('SUA_');
+  const hasKey = (anonKey && anonKey !== 'SUA_SUPABASE_ANON_KEY' && !anonKey.includes('SUA_')) || 
+                 (serviceKey && serviceKey !== 'SUA_SUPABASE_SERVICE_ROLE_KEY' && !serviceKey.includes('SUA_'));
+  const hasJwt = jwtSecret && jwtSecret !== 'my_super_secret_jwt_key_123!' && jwtSecret.trim().length > 0;
 
-  const missing = required.filter((key) => {
-    const val = process.env[key];
-    return !val || val === 'SUA_SUPABASE_URL' || val === 'SUA_SUPABASE_ANON_KEY';
-  });
-
-  if (missing.length > 0) {
-    throw new Error(
-      `Variáveis obrigatórias ausentes: ${missing.join(", ")}`
-    );
+  if (!hasUrl || !hasKey || !hasJwt) {
+    const missing = [];
+    if (!hasUrl) missing.push('SUPABASE_URL');
+    if (!hasKey) missing.push('SUPABASE_ANON_KEY or SUPABASE_SERVICE_ROLE_KEY');
+    if (!hasJwt) missing.push('JWT_SECRET');
+    throw new Error(`Variáveis obrigatórias ausentes ou inválidas: ${missing.join(", ")}`);
   }
 }
 
 app.post('/api/users/register', async (req: Request, res: Response) => {
-  const requestId = globalThis.crypto?.randomUUID() || Math.random().toString(36).substring(2, 11);
-  console.log(`[REGISTER:${requestId}:01] Função invocada`);
-
+  console.log("[REGISTER:01] Requisição recebida");
+  
   const { nome, email, diaRecebimentoSalario, inicioCicloMensal, moeda } = req.body;
   const password = req.body.senha || req.body.password;
 
-  console.log(`[REGISTER:${requestId}:02] Corpo recebido`, { nome, email });
-
   if (!nome || !email || !password) {
-    console.warn(`[REGISTER:${requestId}:03-FAIL] Nome, e-mail ou senha ausentes`);
     return res.status(400).json({ 
       success: false,
-      message: 'Por favor, preencha nome, e-mail e senha.',
-      requestId
+      message: 'Por favor, preencha nome, e-mail e senha.'
     });
   }
 
-  console.log(`[REGISTER:${requestId}:03] Validação básica concluída`);
+  console.log("[REGISTER:02] Dados validados");
 
   try {
-    // Stage 9 Env Validation
     try {
       validateServerEnv();
-      console.log(`[REGISTER:${requestId}:04] Validação de variáveis de ambiente concluída com sucesso`);
     } catch (envErr: any) {
-      console.error(`[REGISTER:${requestId}:04-ERROR] Falha de validação de ambiente:`, envErr.message);
       return res.status(500).json({
         success: false,
-        message: 'Falha na configuração do servidor: variáveis de ambiente ausentes.',
-        requestId
+        message: 'Falha na configuração do servidor: variáveis de ambiente ausentes.'
       });
     }
 
-    console.log(`[REGISTER:${requestId}:05] Consulta de e-mail iniciada`);
     const existingUser = await dbManager.getUserByEmail(email);
-    console.log(`[REGISTER:${requestId}:06] Consulta de e-mail concluída. Usuário já cadastrado?`, !!existingUser);
 
     if (existingUser) {
-      console.warn(`[REGISTER:${requestId}:06-FAIL] Usuário com e-mail ${email} já existe`);
       return res.status(400).json({ 
         success: false,
-        message: 'Este e-mail já está cadastrado.',
-        requestId
+        message: 'Este e-mail já está cadastrado.'
       });
     }
 
-    console.log(`[REGISTER:${requestId}:07] Hash de senha iniciado`);
     const passwordHash = await bcrypt.hash(password, 10);
-    console.log(`[REGISTER:${requestId}:08] Hash de senha concluído`);
-
     const id = `usr_${Math.random().toString(36).substring(2, 11)}`;
     
     const users = await dbManager.getUsers();
     const role = users.length === 0 ? 'admin' : 'user';
 
-    console.log(`[REGISTER:${requestId}:09-START] Iniciando criação do usuário no banco com ID: ${id}, role: ${role}`);
+    console.log("[REGISTER:03] Supabase iniciado");
+
     const newUser = await dbManager.createUser({
       id,
       nome,
@@ -1100,21 +1086,29 @@ app.post('/api/users/register', async (req: Request, res: Response) => {
       inicioCicloMensal: inicioCicloMensal ? Number(inicioCicloMensal) : 1,
       status: 'ativo',
       role
-    }, requestId);
+    }, id);
 
-    console.log(`[REGISTER:${requestId}:13] Criação de log de auditoria iniciada`);
-    await dbManager.createAuditLog(id, {
-      acao: 'cadastro',
-      entidade: 'users',
-      entidadeId: id,
-      dispositivo: req.headers['user-agent'] || 'Desconhecido',
-      descricaoResumida: 'Usuário criou conta no Meu Plano Financeiro.'
-    });
-    console.log(`[REGISTER:${requestId}:14] Log de auditoria criado com sucesso`);
+    console.log("[REGISTER:04] Usuário criado");
+    
+    // As categorias são criadas dentro do dbManager.createUser e logadas lá.
+    // O log [REGISTER:05] está no src/db/supabaseDb.ts
 
-    console.log(`[REGISTER:${requestId}:15] Assinando token JWT`);
+    try {
+      await dbManager.createAuditLog(id, {
+        acao: 'cadastro',
+        entidade: 'users',
+        entidadeId: id,
+        dispositivo: req.headers['user-agent'] || 'Desconhecido',
+        descricaoResumida: 'Usuário criou conta no Meu Plano Financeiro.'
+      });
+    } catch (auditErr: any) {
+      // Non-critical, continue
+    }
+
     const token = jwt.sign({ userId: id, role }, JWT_SECRET, { expiresIn: '7d' });
-    console.log(`[REGISTER:${requestId}:16] Cadastro completo. Enviando resposta de sucesso.`);
+    console.log("[REGISTER:06] Token criado");
+
+    console.log("[REGISTER:07] Cadastro concluído");
 
     return res.status(201).json({
       success: true,
@@ -1132,15 +1126,15 @@ app.post('/api/users/register', async (req: Request, res: Response) => {
       }
     });
   } catch (error: any) {
-    console.error(`[REGISTER:${requestId}:FATAL] Erro não tratado durante o cadastro:`, {
-      message: error.message,
-      stack: error.stack
+    console.error("[REGISTER:ERRO]", {
+      name: error instanceof Error ? error.name : "Erro desconhecido",
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined
     });
+
     return res.status(500).json({ 
       success: false,
-      message: 'Não foi possível concluir o cadastro. Ocorreu um erro interno.',
-      error: error.message,
-      requestId
+      message: 'Não foi possível concluir o cadastro. Tente novamente.'
     });
   }
 });
@@ -1789,7 +1783,8 @@ async function startServer() {
   await ensureTestUser();
 
   if (process.env.NODE_ENV !== "production") {
-    const { createServer } = await import('vite');
+    const viteModule = 'vite';
+    const { createServer } = await import(viteModule);
     const vite = await createServer({
       server: { middlewareMode: true },
       appType: "spa",
