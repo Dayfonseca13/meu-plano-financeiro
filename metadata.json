@@ -1,0 +1,6 @@
+{
+  "name": "Meu Plano Financeiro",
+  "description": "Um aplicativo web completo de controle financeiro pessoal, com funcionamento em formato PWA, responsivo e com suporte offline.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

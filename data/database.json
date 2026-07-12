@@ -1,0 +1,2361 @@
+{
+  "users": [
+    {
+      "id": "usr_testuser",
+      "nome": "Usuário de Teste",
+      "email": "teste@teste",
+      "passwordHash": "$2b$10$jA9R8n75rOS670MDf2uv8.ZvU1kBk5BeUdAjUeEjDJmdSkEwLmVyK",
+      "moeda": "BRL",
+      "fusoHorario": "America/Sao_Paulo",
+      "inicioCicloMensal": 1,
+      "status": "ativo",
+      "role": "admin",
+      "dataCriacao": "2026-07-12T15:02:29.797Z",
+      "dataAtualizacao": "2026-07-12T15:07:54.952Z",
+      "preferencias": {
+        "modoEscuro": "sistema",
+        "notificarContasVencendo": true,
+        "notificarOrcamento70": true,
+        "notificarOrcamento90": true
+      },
+      "ultimoAcesso": "2026-07-12T15:07:54.944Z"
+    },
+    {
+      "id": "usr_testuser",
+      "nome": "Usuário de Teste",
+      "email": "teste@teste",
+      "passwordHash": "$2b$10$kXhrSgQQZpmE2jMWnJxWeO/I9AY2X5I.CJEu12.0ngmlItCsytEDi",
+      "moeda": "BRL",
+      "fusoHorario": "America/Sao_Paulo",
+      "inicioCicloMensal": 1,
+      "status": "ativo",
+      "role": "admin",
+      "dataCriacao": "2026-07-12T15:55:55.818Z",
+      "dataAtualizacao": "2026-07-12T15:55:55.818Z",
+      "preferencias": {
+        "modoEscuro": "sistema",
+        "notificarContasVencendo": true,
+        "notificarOrcamento70": true,
+        "notificarOrcamento90": true
+      }
+    },
+    {
+      "id": "usr_testuser",
+      "nome": "Usuário de Teste",
+      "email": "teste@teste",
+      "passwordHash": "$2b$10$LzUcmgckiL/CGlJ8HezUb.cFQ1ACQZNEhhqWs/Cqipbceq.sJ7CTm",
+      "moeda": "BRL",
+      "fusoHorario": "America/Sao_Paulo",
+      "inicioCicloMensal": 1,
+      "status": "ativo",
+      "role": "admin",
+      "dataCriacao": "2026-07-12T16:33:06.598Z",
+      "dataAtualizacao": "2026-07-12T16:33:06.598Z",
+      "preferencias": {
+        "modoEscuro": "sistema",
+        "notificarContasVencendo": true,
+        "notificarOrcamento70": true,
+        "notificarOrcamento90": true
+      }
+    },
+    {
+      "id": "usr_testuser",
+      "nome": "Usuário de Teste",
+      "email": "teste@teste",
+      "passwordHash": "$2b$10$jzwg40BZIwF0EWRi1WA30.Nw8vdTtbS4PoAB3s3a5jXKQ5zg4TiyK",
+      "moeda": "BRL",
+      "fusoHorario": "America/Sao_Paulo",
+      "inicioCicloMensal": 1,
+      "status": "ativo",
+      "role": "admin",
+      "dataCriacao": "2026-07-12T16:51:33.213Z",
+      "dataAtualizacao": "2026-07-12T16:51:33.213Z",
+      "preferencias": {
+        "modoEscuro": "sistema",
+        "notificarContasVencendo": true,
+        "notificarOrcamento70": true,
+        "notificarOrcamento90": true
+      }
+    },
+    {
+      "id": "usr_testuser",
+      "nome": "Usuário de Teste",
+      "email": "teste@teste",
+      "passwordHash": "$2b$10$CeJRFYK5RiG5oOsMEH/I/upZWJ7ayGQU.einochPfQN9QzXuYkthu",
+      "moeda": "BRL",
+      "fusoHorario": "America/Sao_Paulo",
+      "inicioCicloMensal": 1,
+      "status": "ativo",
+      "role": "admin",
+      "dataCriacao": "2026-07-12T16:55:59.494Z",
+      "dataAtualizacao": "2026-07-12T16:55:59.494Z",
+      "preferencias": {
+        "modoEscuro": "sistema",
+        "notificarContasVencendo": true,
+        "notificarOrcamento70": true,
+        "notificarOrcamento90": true
+      }
+    },
+    {
+      "id": "usr_testuser",
+      "nome": "Usuário de Teste",
+      "email": "teste@teste",
+      "passwordHash": "$2b$10$cWfNENibs2FNQcF7yeT1aOYb0ckDuuByjbht8S.AF.OZ.RrIi0Ljy",
+      "moeda": "BRL",
+      "fusoHorario": "America/Sao_Paulo",
+      "inicioCicloMensal": 1,
+      "status": "ativo",
+      "role": "admin",
+      "dataCriacao": "2026-07-12T16:59:09.914Z",
+      "dataAtualizacao": "2026-07-12T16:59:09.914Z",
+      "preferencias": {
+        "modoEscuro": "sistema",
+        "notificarContasVencendo": true,
+        "notificarOrcamento70": true,
+        "notificarOrcamento90": true
+      }
+    },
+    {
+      "id": "usr_testuser",
+      "nome": "Usuário de Teste",
+      "email": "teste@teste",
+      "passwordHash": "$2b$10$veBJ1QcPcbHxdHZJtt2V/.8Rd5yfg3LeQBdU9I..ipUFzzoXnIOO.",
+      "moeda": "BRL",
+      "fusoHorario": "America/Sao_Paulo",
+      "inicioCicloMensal": 1,
+      "status": "ativo",
+      "role": "admin",
+      "dataCriacao": "2026-07-12T17:02:11.202Z",
+      "dataAtualizacao": "2026-07-12T17:02:11.202Z",
+      "preferencias": {
+        "modoEscuro": "sistema",
+        "notificarContasVencendo": true,
+        "notificarOrcamento70": true,
+        "notificarOrcamento90": true
+      }
+    },
+    {
+      "id": "usr_hwvk4vgqn",
+      "nome": "New User",
+      "email": "newuser@example.com",
+      "passwordHash": "$2b$10$T8XROywkFCcII/Mffd0nFOXRkSE7fAYNRxDB6TXhcL35uUsOVNxX6",
+      "moeda": "BRL",
+      "fusoHorario": "America/Sao_Paulo",
+      "inicioCicloMensal": 1,
+      "status": "ativo",
+      "role": "admin",
+      "dataCriacao": "2026-07-12T17:20:51.417Z",
+      "dataAtualizacao": "2026-07-12T17:20:51.417Z",
+      "preferencias": {
+        "modoEscuro": "sistema",
+        "notificarContasVencendo": true,
+        "notificarOrcamento70": true,
+        "notificarOrcamento90": true
+      }
+    },
+    {
+      "id": "usr_diag_w368xtjsn",
+      "nome": "Diagnostic User",
+      "email": "diag@example.com",
+      "passwordHash": "dummyhash",
+      "moeda": "BRL",
+      "fusoHorario": "America/Sao_Paulo",
+      "status": "ativo",
+      "role": "user",
+      "dataCriacao": "2026-07-12T17:21:10.763Z",
+      "dataAtualizacao": "2026-07-12T17:21:10.763Z",
+      "preferencias": {
+        "modoEscuro": "sistema",
+        "notificarContasVencendo": true,
+        "notificarOrcamento70": true,
+        "notificarOrcamento90": true
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat_2y8uuqp6x",
+      "userId": "usr_testuser",
+      "nome": "Alimentação",
+      "tipo": "despesa",
+      "icone": "Utensils",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_74yut4oy4",
+      "userId": "usr_testuser",
+      "nome": "Moradia",
+      "tipo": "despesa",
+      "icone": "Home",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_2lwpwrxts",
+      "userId": "usr_testuser",
+      "nome": "Transporte",
+      "tipo": "despesa",
+      "icone": "Car",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_83ogryej3",
+      "userId": "usr_testuser",
+      "nome": "Saúde",
+      "tipo": "despesa",
+      "icone": "HeartPulse",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_0pnnxua2v",
+      "userId": "usr_testuser",
+      "nome": "Educação",
+      "tipo": "despesa",
+      "icone": "GraduationCap",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 5
+    },
+    {
+      "id": "cat_7cf7bj9ci",
+      "userId": "usr_testuser",
+      "nome": "Lazer",
+      "tipo": "despesa",
+      "icone": "Gamepad2",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 6
+    },
+    {
+      "id": "cat_nny4mwu52",
+      "userId": "usr_testuser",
+      "nome": "Vestuário",
+      "tipo": "despesa",
+      "icone": "Shirt",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 7
+    },
+    {
+      "id": "cat_fajjj5scr",
+      "userId": "usr_testuser",
+      "nome": "Cuidados Pessoais",
+      "tipo": "despesa",
+      "icone": "Sparkles",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 8
+    },
+    {
+      "id": "cat_vfbgwh1xh",
+      "userId": "usr_testuser",
+      "nome": "Dívidas",
+      "tipo": "despesa",
+      "icone": "CreditCard",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 9
+    },
+    {
+      "id": "cat_b7wnlktfa",
+      "userId": "usr_testuser",
+      "nome": "Assinaturas",
+      "tipo": "despesa",
+      "icone": "Tv",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 10
+    },
+    {
+      "id": "cat_rsuk8himm",
+      "userId": "usr_testuser",
+      "nome": "Impostos",
+      "tipo": "despesa",
+      "icone": "FileText",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 11
+    },
+    {
+      "id": "cat_acmctnk4p",
+      "userId": "usr_testuser",
+      "nome": "Filhos",
+      "tipo": "despesa",
+      "icone": "Baby",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 12
+    },
+    {
+      "id": "cat_jxzeaqa5p",
+      "userId": "usr_testuser",
+      "nome": "Animais",
+      "tipo": "despesa",
+      "icone": "PawPrint",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 13
+    },
+    {
+      "id": "cat_l8r6j1xhm",
+      "userId": "usr_testuser",
+      "nome": "Doações",
+      "tipo": "despesa",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 14
+    },
+    {
+      "id": "cat_7vna8pad8",
+      "userId": "usr_testuser",
+      "nome": "Viagens",
+      "tipo": "despesa",
+      "icone": "Plane",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 15
+    },
+    {
+      "id": "cat_at0d06eot",
+      "userId": "usr_testuser",
+      "nome": "Investimentos",
+      "tipo": "despesa",
+      "icone": "TrendingUp",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 16
+    },
+    {
+      "id": "cat_klrc8b37v",
+      "userId": "usr_testuser",
+      "nome": "Reserva",
+      "tipo": "despesa",
+      "icone": "PiggyBank",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 17
+    },
+    {
+      "id": "cat_q4it9pa61",
+      "userId": "usr_testuser",
+      "nome": "Compras",
+      "tipo": "despesa",
+      "icone": "ShoppingBag",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 18
+    },
+    {
+      "id": "cat_ytylx8ymd",
+      "userId": "usr_testuser",
+      "nome": "Serviços",
+      "tipo": "despesa",
+      "icone": "Wrench",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 19
+    },
+    {
+      "id": "cat_tnjk6ibon",
+      "userId": "usr_testuser",
+      "nome": "Outros",
+      "tipo": "despesa",
+      "icone": "HelpCircle",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 20
+    },
+    {
+      "id": "cat_m73l7lhm7",
+      "userId": "usr_testuser",
+      "nome": "Salário",
+      "tipo": "receita",
+      "icone": "Briefcase",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_ieqtbaqb8",
+      "userId": "usr_testuser",
+      "nome": "Renda Extra",
+      "tipo": "receita",
+      "icone": "DollarSign",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_q3rc03skc",
+      "userId": "usr_testuser",
+      "nome": "Investimentos",
+      "tipo": "receita",
+      "icone": "Percent",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_9rrzp9khh",
+      "userId": "usr_testuser",
+      "nome": "Presente",
+      "tipo": "receita",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_q1wnjr612",
+      "userId": "usr_testuser",
+      "nome": "Alimentação",
+      "tipo": "despesa",
+      "icone": "Utensils",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_5nsup03if",
+      "userId": "usr_testuser",
+      "nome": "Moradia",
+      "tipo": "despesa",
+      "icone": "Home",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_utxjh5rmn",
+      "userId": "usr_testuser",
+      "nome": "Transporte",
+      "tipo": "despesa",
+      "icone": "Car",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_3g8mzmai5",
+      "userId": "usr_testuser",
+      "nome": "Saúde",
+      "tipo": "despesa",
+      "icone": "HeartPulse",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_5i18unhf3",
+      "userId": "usr_testuser",
+      "nome": "Educação",
+      "tipo": "despesa",
+      "icone": "GraduationCap",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 5
+    },
+    {
+      "id": "cat_bpkjwnpyt",
+      "userId": "usr_testuser",
+      "nome": "Lazer",
+      "tipo": "despesa",
+      "icone": "Gamepad2",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 6
+    },
+    {
+      "id": "cat_qvjrgak7a",
+      "userId": "usr_testuser",
+      "nome": "Vestuário",
+      "tipo": "despesa",
+      "icone": "Shirt",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 7
+    },
+    {
+      "id": "cat_ipcljc0o5",
+      "userId": "usr_testuser",
+      "nome": "Cuidados Pessoais",
+      "tipo": "despesa",
+      "icone": "Sparkles",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 8
+    },
+    {
+      "id": "cat_jt5pdx9fh",
+      "userId": "usr_testuser",
+      "nome": "Dívidas",
+      "tipo": "despesa",
+      "icone": "CreditCard",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 9
+    },
+    {
+      "id": "cat_cpybo2xas",
+      "userId": "usr_testuser",
+      "nome": "Assinaturas",
+      "tipo": "despesa",
+      "icone": "Tv",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 10
+    },
+    {
+      "id": "cat_620evdub8",
+      "userId": "usr_testuser",
+      "nome": "Impostos",
+      "tipo": "despesa",
+      "icone": "FileText",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 11
+    },
+    {
+      "id": "cat_avudm6j6x",
+      "userId": "usr_testuser",
+      "nome": "Filhos",
+      "tipo": "despesa",
+      "icone": "Baby",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 12
+    },
+    {
+      "id": "cat_npnrzbwr2",
+      "userId": "usr_testuser",
+      "nome": "Animais",
+      "tipo": "despesa",
+      "icone": "PawPrint",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 13
+    },
+    {
+      "id": "cat_dcz0spupe",
+      "userId": "usr_testuser",
+      "nome": "Doações",
+      "tipo": "despesa",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 14
+    },
+    {
+      "id": "cat_csd6grjwg",
+      "userId": "usr_testuser",
+      "nome": "Viagens",
+      "tipo": "despesa",
+      "icone": "Plane",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 15
+    },
+    {
+      "id": "cat_bowqbm9fe",
+      "userId": "usr_testuser",
+      "nome": "Investimentos",
+      "tipo": "despesa",
+      "icone": "TrendingUp",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 16
+    },
+    {
+      "id": "cat_omloi2omb",
+      "userId": "usr_testuser",
+      "nome": "Reserva",
+      "tipo": "despesa",
+      "icone": "PiggyBank",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 17
+    },
+    {
+      "id": "cat_xvwy70n8x",
+      "userId": "usr_testuser",
+      "nome": "Compras",
+      "tipo": "despesa",
+      "icone": "ShoppingBag",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 18
+    },
+    {
+      "id": "cat_mjdblonkl",
+      "userId": "usr_testuser",
+      "nome": "Serviços",
+      "tipo": "despesa",
+      "icone": "Wrench",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 19
+    },
+    {
+      "id": "cat_poxhdjnw4",
+      "userId": "usr_testuser",
+      "nome": "Outros",
+      "tipo": "despesa",
+      "icone": "HelpCircle",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 20
+    },
+    {
+      "id": "cat_tluwck3fg",
+      "userId": "usr_testuser",
+      "nome": "Salário",
+      "tipo": "receita",
+      "icone": "Briefcase",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_wf8qw6zd8",
+      "userId": "usr_testuser",
+      "nome": "Renda Extra",
+      "tipo": "receita",
+      "icone": "DollarSign",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_wvywtcv9d",
+      "userId": "usr_testuser",
+      "nome": "Investimentos",
+      "tipo": "receita",
+      "icone": "Percent",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_3hjeisux7",
+      "userId": "usr_testuser",
+      "nome": "Presente",
+      "tipo": "receita",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_rqq4asq5q",
+      "userId": "usr_testuser",
+      "nome": "Alimentação",
+      "tipo": "despesa",
+      "icone": "Utensils",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_k78bvm6qe",
+      "userId": "usr_testuser",
+      "nome": "Moradia",
+      "tipo": "despesa",
+      "icone": "Home",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_6hqdqdi3c",
+      "userId": "usr_testuser",
+      "nome": "Transporte",
+      "tipo": "despesa",
+      "icone": "Car",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_nw3rg1p2l",
+      "userId": "usr_testuser",
+      "nome": "Saúde",
+      "tipo": "despesa",
+      "icone": "HeartPulse",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_j9bxo9vy5",
+      "userId": "usr_testuser",
+      "nome": "Educação",
+      "tipo": "despesa",
+      "icone": "GraduationCap",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 5
+    },
+    {
+      "id": "cat_05z2yhydl",
+      "userId": "usr_testuser",
+      "nome": "Lazer",
+      "tipo": "despesa",
+      "icone": "Gamepad2",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 6
+    },
+    {
+      "id": "cat_o5htlbka9",
+      "userId": "usr_testuser",
+      "nome": "Vestuário",
+      "tipo": "despesa",
+      "icone": "Shirt",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 7
+    },
+    {
+      "id": "cat_kcr24nrn2",
+      "userId": "usr_testuser",
+      "nome": "Cuidados Pessoais",
+      "tipo": "despesa",
+      "icone": "Sparkles",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 8
+    },
+    {
+      "id": "cat_4qhfmeymy",
+      "userId": "usr_testuser",
+      "nome": "Dívidas",
+      "tipo": "despesa",
+      "icone": "CreditCard",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 9
+    },
+    {
+      "id": "cat_5oofaybg7",
+      "userId": "usr_testuser",
+      "nome": "Assinaturas",
+      "tipo": "despesa",
+      "icone": "Tv",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 10
+    },
+    {
+      "id": "cat_r0rxowv2q",
+      "userId": "usr_testuser",
+      "nome": "Impostos",
+      "tipo": "despesa",
+      "icone": "FileText",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 11
+    },
+    {
+      "id": "cat_3z8qrtkjn",
+      "userId": "usr_testuser",
+      "nome": "Filhos",
+      "tipo": "despesa",
+      "icone": "Baby",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 12
+    },
+    {
+      "id": "cat_xqxqy5qi0",
+      "userId": "usr_testuser",
+      "nome": "Animais",
+      "tipo": "despesa",
+      "icone": "PawPrint",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 13
+    },
+    {
+      "id": "cat_zg63migpt",
+      "userId": "usr_testuser",
+      "nome": "Doações",
+      "tipo": "despesa",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 14
+    },
+    {
+      "id": "cat_ytvmeorgb",
+      "userId": "usr_testuser",
+      "nome": "Viagens",
+      "tipo": "despesa",
+      "icone": "Plane",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 15
+    },
+    {
+      "id": "cat_4qnoad6u5",
+      "userId": "usr_testuser",
+      "nome": "Investimentos",
+      "tipo": "despesa",
+      "icone": "TrendingUp",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 16
+    },
+    {
+      "id": "cat_aec83vmon",
+      "userId": "usr_testuser",
+      "nome": "Reserva",
+      "tipo": "despesa",
+      "icone": "PiggyBank",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 17
+    },
+    {
+      "id": "cat_9pawmcsqv",
+      "userId": "usr_testuser",
+      "nome": "Compras",
+      "tipo": "despesa",
+      "icone": "ShoppingBag",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 18
+    },
+    {
+      "id": "cat_xsxeez0b4",
+      "userId": "usr_testuser",
+      "nome": "Serviços",
+      "tipo": "despesa",
+      "icone": "Wrench",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 19
+    },
+    {
+      "id": "cat_hcqydil6d",
+      "userId": "usr_testuser",
+      "nome": "Outros",
+      "tipo": "despesa",
+      "icone": "HelpCircle",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 20
+    },
+    {
+      "id": "cat_0co6tw6au",
+      "userId": "usr_testuser",
+      "nome": "Salário",
+      "tipo": "receita",
+      "icone": "Briefcase",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_mu8xh3d7e",
+      "userId": "usr_testuser",
+      "nome": "Renda Extra",
+      "tipo": "receita",
+      "icone": "DollarSign",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_uu6w3f1qy",
+      "userId": "usr_testuser",
+      "nome": "Investimentos",
+      "tipo": "receita",
+      "icone": "Percent",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_07npot7ld",
+      "userId": "usr_testuser",
+      "nome": "Presente",
+      "tipo": "receita",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_51osdpqx9",
+      "userId": "usr_testuser",
+      "nome": "Alimentação",
+      "tipo": "despesa",
+      "icone": "Utensils",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_7vsyiwxk0",
+      "userId": "usr_testuser",
+      "nome": "Moradia",
+      "tipo": "despesa",
+      "icone": "Home",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_35t3rmwyb",
+      "userId": "usr_testuser",
+      "nome": "Transporte",
+      "tipo": "despesa",
+      "icone": "Car",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_0h8i8a2dx",
+      "userId": "usr_testuser",
+      "nome": "Saúde",
+      "tipo": "despesa",
+      "icone": "HeartPulse",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_enu28zaka",
+      "userId": "usr_testuser",
+      "nome": "Educação",
+      "tipo": "despesa",
+      "icone": "GraduationCap",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 5
+    },
+    {
+      "id": "cat_000npkqoh",
+      "userId": "usr_testuser",
+      "nome": "Lazer",
+      "tipo": "despesa",
+      "icone": "Gamepad2",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 6
+    },
+    {
+      "id": "cat_xcgt9e6ez",
+      "userId": "usr_testuser",
+      "nome": "Vestuário",
+      "tipo": "despesa",
+      "icone": "Shirt",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 7
+    },
+    {
+      "id": "cat_coo1v8muy",
+      "userId": "usr_testuser",
+      "nome": "Cuidados Pessoais",
+      "tipo": "despesa",
+      "icone": "Sparkles",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 8
+    },
+    {
+      "id": "cat_4oes35ysv",
+      "userId": "usr_testuser",
+      "nome": "Dívidas",
+      "tipo": "despesa",
+      "icone": "CreditCard",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 9
+    },
+    {
+      "id": "cat_146y8y96k",
+      "userId": "usr_testuser",
+      "nome": "Assinaturas",
+      "tipo": "despesa",
+      "icone": "Tv",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 10
+    },
+    {
+      "id": "cat_xho3in6zm",
+      "userId": "usr_testuser",
+      "nome": "Impostos",
+      "tipo": "despesa",
+      "icone": "FileText",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 11
+    },
+    {
+      "id": "cat_fxj99rupw",
+      "userId": "usr_testuser",
+      "nome": "Filhos",
+      "tipo": "despesa",
+      "icone": "Baby",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 12
+    },
+    {
+      "id": "cat_61o547wb8",
+      "userId": "usr_testuser",
+      "nome": "Animais",
+      "tipo": "despesa",
+      "icone": "PawPrint",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 13
+    },
+    {
+      "id": "cat_zxq7t2nvr",
+      "userId": "usr_testuser",
+      "nome": "Doações",
+      "tipo": "despesa",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 14
+    },
+    {
+      "id": "cat_kea4681v6",
+      "userId": "usr_testuser",
+      "nome": "Viagens",
+      "tipo": "despesa",
+      "icone": "Plane",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 15
+    },
+    {
+      "id": "cat_gwiw45xt2",
+      "userId": "usr_testuser",
+      "nome": "Investimentos",
+      "tipo": "despesa",
+      "icone": "TrendingUp",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 16
+    },
+    {
+      "id": "cat_gb708n0gn",
+      "userId": "usr_testuser",
+      "nome": "Reserva",
+      "tipo": "despesa",
+      "icone": "PiggyBank",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 17
+    },
+    {
+      "id": "cat_wr1g0i1f8",
+      "userId": "usr_testuser",
+      "nome": "Compras",
+      "tipo": "despesa",
+      "icone": "ShoppingBag",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 18
+    },
+    {
+      "id": "cat_spown7r9o",
+      "userId": "usr_testuser",
+      "nome": "Serviços",
+      "tipo": "despesa",
+      "icone": "Wrench",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 19
+    },
+    {
+      "id": "cat_2l026ouwk",
+      "userId": "usr_testuser",
+      "nome": "Outros",
+      "tipo": "despesa",
+      "icone": "HelpCircle",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 20
+    },
+    {
+      "id": "cat_yay570fb2",
+      "userId": "usr_testuser",
+      "nome": "Salário",
+      "tipo": "receita",
+      "icone": "Briefcase",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_b3fadxzn9",
+      "userId": "usr_testuser",
+      "nome": "Renda Extra",
+      "tipo": "receita",
+      "icone": "DollarSign",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_ug08xyy4t",
+      "userId": "usr_testuser",
+      "nome": "Investimentos",
+      "tipo": "receita",
+      "icone": "Percent",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_0quwz4jz2",
+      "userId": "usr_testuser",
+      "nome": "Presente",
+      "tipo": "receita",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_mtq1hhdxh",
+      "userId": "usr_testuser",
+      "nome": "Alimentação",
+      "tipo": "despesa",
+      "icone": "Utensils",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_crt4yswfg",
+      "userId": "usr_testuser",
+      "nome": "Moradia",
+      "tipo": "despesa",
+      "icone": "Home",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_a39gxw0h7",
+      "userId": "usr_testuser",
+      "nome": "Transporte",
+      "tipo": "despesa",
+      "icone": "Car",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_pulpf741o",
+      "userId": "usr_testuser",
+      "nome": "Saúde",
+      "tipo": "despesa",
+      "icone": "HeartPulse",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_buyr1a741",
+      "userId": "usr_testuser",
+      "nome": "Educação",
+      "tipo": "despesa",
+      "icone": "GraduationCap",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 5
+    },
+    {
+      "id": "cat_6e4m59zol",
+      "userId": "usr_testuser",
+      "nome": "Lazer",
+      "tipo": "despesa",
+      "icone": "Gamepad2",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 6
+    },
+    {
+      "id": "cat_or5js630q",
+      "userId": "usr_testuser",
+      "nome": "Vestuário",
+      "tipo": "despesa",
+      "icone": "Shirt",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 7
+    },
+    {
+      "id": "cat_xubj50fe6",
+      "userId": "usr_testuser",
+      "nome": "Cuidados Pessoais",
+      "tipo": "despesa",
+      "icone": "Sparkles",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 8
+    },
+    {
+      "id": "cat_s57ockkip",
+      "userId": "usr_testuser",
+      "nome": "Dívidas",
+      "tipo": "despesa",
+      "icone": "CreditCard",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 9
+    },
+    {
+      "id": "cat_w3fmpbli9",
+      "userId": "usr_testuser",
+      "nome": "Assinaturas",
+      "tipo": "despesa",
+      "icone": "Tv",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 10
+    },
+    {
+      "id": "cat_p1dp3hmgw",
+      "userId": "usr_testuser",
+      "nome": "Impostos",
+      "tipo": "despesa",
+      "icone": "FileText",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 11
+    },
+    {
+      "id": "cat_n876aaw4g",
+      "userId": "usr_testuser",
+      "nome": "Filhos",
+      "tipo": "despesa",
+      "icone": "Baby",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 12
+    },
+    {
+      "id": "cat_amyfnfb6g",
+      "userId": "usr_testuser",
+      "nome": "Animais",
+      "tipo": "despesa",
+      "icone": "PawPrint",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 13
+    },
+    {
+      "id": "cat_vx4n4gwhj",
+      "userId": "usr_testuser",
+      "nome": "Doações",
+      "tipo": "despesa",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 14
+    },
+    {
+      "id": "cat_d3rozme2o",
+      "userId": "usr_testuser",
+      "nome": "Viagens",
+      "tipo": "despesa",
+      "icone": "Plane",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 15
+    },
+    {
+      "id": "cat_h7z5zpxx6",
+      "userId": "usr_testuser",
+      "nome": "Investimentos",
+      "tipo": "despesa",
+      "icone": "TrendingUp",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 16
+    },
+    {
+      "id": "cat_ykuw7j0ns",
+      "userId": "usr_testuser",
+      "nome": "Reserva",
+      "tipo": "despesa",
+      "icone": "PiggyBank",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 17
+    },
+    {
+      "id": "cat_48hhemlda",
+      "userId": "usr_testuser",
+      "nome": "Compras",
+      "tipo": "despesa",
+      "icone": "ShoppingBag",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 18
+    },
+    {
+      "id": "cat_jb3oq7k55",
+      "userId": "usr_testuser",
+      "nome": "Serviços",
+      "tipo": "despesa",
+      "icone": "Wrench",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 19
+    },
+    {
+      "id": "cat_d9rq4kybo",
+      "userId": "usr_testuser",
+      "nome": "Outros",
+      "tipo": "despesa",
+      "icone": "HelpCircle",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 20
+    },
+    {
+      "id": "cat_yax5qxl4y",
+      "userId": "usr_testuser",
+      "nome": "Salário",
+      "tipo": "receita",
+      "icone": "Briefcase",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_j28ex4r8b",
+      "userId": "usr_testuser",
+      "nome": "Renda Extra",
+      "tipo": "receita",
+      "icone": "DollarSign",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_b1116yr0z",
+      "userId": "usr_testuser",
+      "nome": "Investimentos",
+      "tipo": "receita",
+      "icone": "Percent",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_rzhlab60z",
+      "userId": "usr_testuser",
+      "nome": "Presente",
+      "tipo": "receita",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_84vepxm68",
+      "userId": "usr_testuser",
+      "nome": "Alimentação",
+      "tipo": "despesa",
+      "icone": "Utensils",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_c8lxsr7zk",
+      "userId": "usr_testuser",
+      "nome": "Moradia",
+      "tipo": "despesa",
+      "icone": "Home",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_88zuskbqg",
+      "userId": "usr_testuser",
+      "nome": "Transporte",
+      "tipo": "despesa",
+      "icone": "Car",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_elh7pq0lx",
+      "userId": "usr_testuser",
+      "nome": "Saúde",
+      "tipo": "despesa",
+      "icone": "HeartPulse",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_1wz9aiqsj",
+      "userId": "usr_testuser",
+      "nome": "Educação",
+      "tipo": "despesa",
+      "icone": "GraduationCap",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 5
+    },
+    {
+      "id": "cat_7jeyt74un",
+      "userId": "usr_testuser",
+      "nome": "Lazer",
+      "tipo": "despesa",
+      "icone": "Gamepad2",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 6
+    },
+    {
+      "id": "cat_m3gyahnr9",
+      "userId": "usr_testuser",
+      "nome": "Vestuário",
+      "tipo": "despesa",
+      "icone": "Shirt",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 7
+    },
+    {
+      "id": "cat_f1rth6uyu",
+      "userId": "usr_testuser",
+      "nome": "Cuidados Pessoais",
+      "tipo": "despesa",
+      "icone": "Sparkles",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 8
+    },
+    {
+      "id": "cat_x7z8m77f9",
+      "userId": "usr_testuser",
+      "nome": "Dívidas",
+      "tipo": "despesa",
+      "icone": "CreditCard",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 9
+    },
+    {
+      "id": "cat_ldvx6tr6w",
+      "userId": "usr_testuser",
+      "nome": "Assinaturas",
+      "tipo": "despesa",
+      "icone": "Tv",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 10
+    },
+    {
+      "id": "cat_74syu0m3r",
+      "userId": "usr_testuser",
+      "nome": "Impostos",
+      "tipo": "despesa",
+      "icone": "FileText",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 11
+    },
+    {
+      "id": "cat_devxn3qb5",
+      "userId": "usr_testuser",
+      "nome": "Filhos",
+      "tipo": "despesa",
+      "icone": "Baby",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 12
+    },
+    {
+      "id": "cat_06qhbw7q0",
+      "userId": "usr_testuser",
+      "nome": "Animais",
+      "tipo": "despesa",
+      "icone": "PawPrint",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 13
+    },
+    {
+      "id": "cat_hi5cxljzl",
+      "userId": "usr_testuser",
+      "nome": "Doações",
+      "tipo": "despesa",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 14
+    },
+    {
+      "id": "cat_jg9f6osd6",
+      "userId": "usr_testuser",
+      "nome": "Viagens",
+      "tipo": "despesa",
+      "icone": "Plane",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 15
+    },
+    {
+      "id": "cat_x8b3p5djg",
+      "userId": "usr_testuser",
+      "nome": "Investimentos",
+      "tipo": "despesa",
+      "icone": "TrendingUp",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 16
+    },
+    {
+      "id": "cat_qi6s4usjr",
+      "userId": "usr_testuser",
+      "nome": "Reserva",
+      "tipo": "despesa",
+      "icone": "PiggyBank",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 17
+    },
+    {
+      "id": "cat_2gdgtvk6c",
+      "userId": "usr_testuser",
+      "nome": "Compras",
+      "tipo": "despesa",
+      "icone": "ShoppingBag",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 18
+    },
+    {
+      "id": "cat_pd48jsmdh",
+      "userId": "usr_testuser",
+      "nome": "Serviços",
+      "tipo": "despesa",
+      "icone": "Wrench",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 19
+    },
+    {
+      "id": "cat_tcccdm56o",
+      "userId": "usr_testuser",
+      "nome": "Outros",
+      "tipo": "despesa",
+      "icone": "HelpCircle",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 20
+    },
+    {
+      "id": "cat_ym8uzkkdt",
+      "userId": "usr_testuser",
+      "nome": "Salário",
+      "tipo": "receita",
+      "icone": "Briefcase",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_736o87jaq",
+      "userId": "usr_testuser",
+      "nome": "Renda Extra",
+      "tipo": "receita",
+      "icone": "DollarSign",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_lkkneukap",
+      "userId": "usr_testuser",
+      "nome": "Investimentos",
+      "tipo": "receita",
+      "icone": "Percent",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_zgk41szz3",
+      "userId": "usr_testuser",
+      "nome": "Presente",
+      "tipo": "receita",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_9vvxaf3v4",
+      "userId": "usr_testuser",
+      "nome": "Alimentação",
+      "tipo": "despesa",
+      "icone": "Utensils",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_ubu4bc0i5",
+      "userId": "usr_testuser",
+      "nome": "Moradia",
+      "tipo": "despesa",
+      "icone": "Home",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_7tampgrem",
+      "userId": "usr_testuser",
+      "nome": "Transporte",
+      "tipo": "despesa",
+      "icone": "Car",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_hei9i70ru",
+      "userId": "usr_testuser",
+      "nome": "Saúde",
+      "tipo": "despesa",
+      "icone": "HeartPulse",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_s9khwwtdx",
+      "userId": "usr_testuser",
+      "nome": "Educação",
+      "tipo": "despesa",
+      "icone": "GraduationCap",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 5
+    },
+    {
+      "id": "cat_a7obmy97j",
+      "userId": "usr_testuser",
+      "nome": "Lazer",
+      "tipo": "despesa",
+      "icone": "Gamepad2",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 6
+    },
+    {
+      "id": "cat_onjqzp7if",
+      "userId": "usr_testuser",
+      "nome": "Vestuário",
+      "tipo": "despesa",
+      "icone": "Shirt",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 7
+    },
+    {
+      "id": "cat_e7u82m7zu",
+      "userId": "usr_testuser",
+      "nome": "Cuidados Pessoais",
+      "tipo": "despesa",
+      "icone": "Sparkles",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 8
+    },
+    {
+      "id": "cat_klouthvqt",
+      "userId": "usr_testuser",
+      "nome": "Dívidas",
+      "tipo": "despesa",
+      "icone": "CreditCard",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 9
+    },
+    {
+      "id": "cat_1vur6i4c4",
+      "userId": "usr_testuser",
+      "nome": "Assinaturas",
+      "tipo": "despesa",
+      "icone": "Tv",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 10
+    },
+    {
+      "id": "cat_20p8s757m",
+      "userId": "usr_testuser",
+      "nome": "Impostos",
+      "tipo": "despesa",
+      "icone": "FileText",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 11
+    },
+    {
+      "id": "cat_8ymb89rjq",
+      "userId": "usr_testuser",
+      "nome": "Filhos",
+      "tipo": "despesa",
+      "icone": "Baby",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 12
+    },
+    {
+      "id": "cat_4snslkcs2",
+      "userId": "usr_testuser",
+      "nome": "Animais",
+      "tipo": "despesa",
+      "icone": "PawPrint",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 13
+    },
+    {
+      "id": "cat_h0v0ikdqx",
+      "userId": "usr_testuser",
+      "nome": "Doações",
+      "tipo": "despesa",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 14
+    },
+    {
+      "id": "cat_p9tkw6j83",
+      "userId": "usr_testuser",
+      "nome": "Viagens",
+      "tipo": "despesa",
+      "icone": "Plane",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 15
+    },
+    {
+      "id": "cat_rohdzygb3",
+      "userId": "usr_testuser",
+      "nome": "Investimentos",
+      "tipo": "despesa",
+      "icone": "TrendingUp",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 16
+    },
+    {
+      "id": "cat_c0y3vmye1",
+      "userId": "usr_testuser",
+      "nome": "Reserva",
+      "tipo": "despesa",
+      "icone": "PiggyBank",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 17
+    },
+    {
+      "id": "cat_i0rapzqxz",
+      "userId": "usr_testuser",
+      "nome": "Compras",
+      "tipo": "despesa",
+      "icone": "ShoppingBag",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 18
+    },
+    {
+      "id": "cat_ogz3fxlqq",
+      "userId": "usr_testuser",
+      "nome": "Serviços",
+      "tipo": "despesa",
+      "icone": "Wrench",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 19
+    },
+    {
+      "id": "cat_ph6dl25wg",
+      "userId": "usr_testuser",
+      "nome": "Outros",
+      "tipo": "despesa",
+      "icone": "HelpCircle",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 20
+    },
+    {
+      "id": "cat_i3l5kd5m7",
+      "userId": "usr_testuser",
+      "nome": "Salário",
+      "tipo": "receita",
+      "icone": "Briefcase",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_yp6cb4c74",
+      "userId": "usr_testuser",
+      "nome": "Renda Extra",
+      "tipo": "receita",
+      "icone": "DollarSign",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_34kntsrko",
+      "userId": "usr_testuser",
+      "nome": "Investimentos",
+      "tipo": "receita",
+      "icone": "Percent",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_s02jk1e43",
+      "userId": "usr_testuser",
+      "nome": "Presente",
+      "tipo": "receita",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_6m6bbd1k0",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Alimentação",
+      "tipo": "despesa",
+      "icone": "Utensils",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_1nw7mdj0q",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Moradia",
+      "tipo": "despesa",
+      "icone": "Home",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_932yl0if1",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Transporte",
+      "tipo": "despesa",
+      "icone": "Car",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_nfjat17g9",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Saúde",
+      "tipo": "despesa",
+      "icone": "HeartPulse",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_ni6148wq2",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Educação",
+      "tipo": "despesa",
+      "icone": "GraduationCap",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 5
+    },
+    {
+      "id": "cat_m6uzu8oeh",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Lazer",
+      "tipo": "despesa",
+      "icone": "Gamepad2",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 6
+    },
+    {
+      "id": "cat_yggwzqbf9",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Vestuário",
+      "tipo": "despesa",
+      "icone": "Shirt",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 7
+    },
+    {
+      "id": "cat_9yihooj31",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Cuidados Pessoais",
+      "tipo": "despesa",
+      "icone": "Sparkles",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 8
+    },
+    {
+      "id": "cat_wb8esrcmg",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Dívidas",
+      "tipo": "despesa",
+      "icone": "CreditCard",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 9
+    },
+    {
+      "id": "cat_sg2cl5j8k",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Assinaturas",
+      "tipo": "despesa",
+      "icone": "Tv",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 10
+    },
+    {
+      "id": "cat_arhhvk5y2",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Impostos",
+      "tipo": "despesa",
+      "icone": "FileText",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 11
+    },
+    {
+      "id": "cat_5rxt35vaa",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Filhos",
+      "tipo": "despesa",
+      "icone": "Baby",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 12
+    },
+    {
+      "id": "cat_6hqtxizfe",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Animais",
+      "tipo": "despesa",
+      "icone": "PawPrint",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 13
+    },
+    {
+      "id": "cat_dkax8x09b",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Doações",
+      "tipo": "despesa",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 14
+    },
+    {
+      "id": "cat_93kxg2uip",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Viagens",
+      "tipo": "despesa",
+      "icone": "Plane",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 15
+    },
+    {
+      "id": "cat_csmnlz5y5",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Investimentos",
+      "tipo": "despesa",
+      "icone": "TrendingUp",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 16
+    },
+    {
+      "id": "cat_wtldcx7ru",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Reserva",
+      "tipo": "despesa",
+      "icone": "PiggyBank",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 17
+    },
+    {
+      "id": "cat_3x571nzv8",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Compras",
+      "tipo": "despesa",
+      "icone": "ShoppingBag",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 18
+    },
+    {
+      "id": "cat_abrv6gmr8",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Serviços",
+      "tipo": "despesa",
+      "icone": "Wrench",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 19
+    },
+    {
+      "id": "cat_dptqh97h8",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Outros",
+      "tipo": "despesa",
+      "icone": "HelpCircle",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 20
+    },
+    {
+      "id": "cat_smhp9ykwx",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Salário",
+      "tipo": "receita",
+      "icone": "Briefcase",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_t62c6syhc",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Renda Extra",
+      "tipo": "receita",
+      "icone": "DollarSign",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_0cyn5hhlj",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Investimentos",
+      "tipo": "receita",
+      "icone": "Percent",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_ejliaggzo",
+      "userId": "usr_hwvk4vgqn",
+      "nome": "Presente",
+      "tipo": "receita",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_lc780w7d9",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Alimentação",
+      "tipo": "despesa",
+      "icone": "Utensils",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_im7zh4v1e",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Moradia",
+      "tipo": "despesa",
+      "icone": "Home",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_cgi48yfw2",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Transporte",
+      "tipo": "despesa",
+      "icone": "Car",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_qn6lxwxvb",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Saúde",
+      "tipo": "despesa",
+      "icone": "HeartPulse",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    },
+    {
+      "id": "cat_qwilz9jpp",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Educação",
+      "tipo": "despesa",
+      "icone": "GraduationCap",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 5
+    },
+    {
+      "id": "cat_1x0uwmkoq",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Lazer",
+      "tipo": "despesa",
+      "icone": "Gamepad2",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 6
+    },
+    {
+      "id": "cat_b9yr6s73y",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Vestuário",
+      "tipo": "despesa",
+      "icone": "Shirt",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 7
+    },
+    {
+      "id": "cat_lwammmbij",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Cuidados Pessoais",
+      "tipo": "despesa",
+      "icone": "Sparkles",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 8
+    },
+    {
+      "id": "cat_51pl6ymg7",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Dívidas",
+      "tipo": "despesa",
+      "icone": "CreditCard",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 9
+    },
+    {
+      "id": "cat_we4x1qtfq",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Assinaturas",
+      "tipo": "despesa",
+      "icone": "Tv",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 10
+    },
+    {
+      "id": "cat_dn9i81ey4",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Impostos",
+      "tipo": "despesa",
+      "icone": "FileText",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 11
+    },
+    {
+      "id": "cat_4otnpct5x",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Filhos",
+      "tipo": "despesa",
+      "icone": "Baby",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 12
+    },
+    {
+      "id": "cat_7mq6gvlms",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Animais",
+      "tipo": "despesa",
+      "icone": "PawPrint",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 13
+    },
+    {
+      "id": "cat_jhrzj47ow",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Doações",
+      "tipo": "despesa",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 14
+    },
+    {
+      "id": "cat_28no8me65",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Viagens",
+      "tipo": "despesa",
+      "icone": "Plane",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 15
+    },
+    {
+      "id": "cat_84pxtplhc",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Investimentos",
+      "tipo": "despesa",
+      "icone": "TrendingUp",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 16
+    },
+    {
+      "id": "cat_to2o0gs3u",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Reserva",
+      "tipo": "despesa",
+      "icone": "PiggyBank",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 17
+    },
+    {
+      "id": "cat_z8mk796su",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Compras",
+      "tipo": "despesa",
+      "icone": "ShoppingBag",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 18
+    },
+    {
+      "id": "cat_to3m2gn5f",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Serviços",
+      "tipo": "despesa",
+      "icone": "Wrench",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 19
+    },
+    {
+      "id": "cat_pmf7uscac",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Outros",
+      "tipo": "despesa",
+      "icone": "HelpCircle",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 20
+    },
+    {
+      "id": "cat_mc8jrsoki",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Salário",
+      "tipo": "receita",
+      "icone": "Briefcase",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 1
+    },
+    {
+      "id": "cat_c61renwdh",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Renda Extra",
+      "tipo": "receita",
+      "icone": "DollarSign",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 2
+    },
+    {
+      "id": "cat_mjja4j7n5",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Investimentos",
+      "tipo": "receita",
+      "icone": "Percent",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 3
+    },
+    {
+      "id": "cat_uor0ohp99",
+      "userId": "usr_diag_w368xtjsn",
+      "nome": "Presente",
+      "tipo": "receita",
+      "icone": "Gift",
+      "subcategorias": [],
+      "status": "ativo",
+      "ordem": 4
+    }
+  ],
+  "incomes": [],
+  "expenses": [],
+  "monthly_budgets": [],
+  "budget_items": [],
+  "goals": [],
+  "goal_contributions": [],
+  "notifications": [],
+  "push_subscriptions": [],
+  "recurring_items": [],
+  "ai_conversations": [],
+  "ai_messages": [],
+  "sync_operations": [],
+  "audit_logs": [
+    {
+      "acao": "login",
+      "entidade": "users",
+      "entidadeId": "usr_testuser",
+      "dispositivo": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "descricaoResumida": "Usuário realizou login com sucesso.",
+      "id": "aud_64qnazr22",
+      "userId": "usr_testuser",
+      "data": "2026-07-12T15:07:54.956Z"
+    }
+  ]
+}

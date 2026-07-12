@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <script id="fetch-patch">
+      (function() {
+        var fetchValue = window.fetch;
+
+        // Try standard defineProperty on window first as a best effort
+        try {
+          Object.defineProperty(window, 'fetch', {
+            get: function() { return fetchValue; },
+            set: function(val) { fetchValue = val; },
+            configurable: true,
+            enumerable: true
+          });
+        } catch (e) {
+          // If window.fetch is non-configurable, defineProperty will fail, which is expected.
+        }
+
+        // Define a robust proxy to protect global aliases
+        var globalProxy = new Proxy(window, {
+          get: function(target, prop, receiver) {
+            if (prop === 'fetch') {
+              return fetchValue;
+            }
+            var val = Reflect.get(target, prop);
+            if (typeof val === 'function' && !/^[A-Z]/.test(String(prop))) {
+              try {
+                return val.bind(target);
+              } catch (e) {}
+            }
+            return val;
+          },
+          set: function(target, prop, val, receiver) {
+            if (prop === 'fetch') {
+              fetchValue = val;
+              return true;
+            }
+            try {
+              target[prop] = val;
+              return true;
+            } catch (e) {
+              return true; // Prevent throwing in strict mode for read-only properties
+            }
+          },
+          defineProperty: function(target, prop, desc) {
+            if (prop === 'fetch') {
+              if (desc && 'value' in desc) {
+                fetchValue = desc.value;
+              }
+              return true;
+            }
+            try {
+              return Reflect.defineProperty(target, prop, desc);
+            } catch (e) {
+              return true;
+            }
+          },
+          getOwnPropertyDescriptor: function(target, prop) {
+            if (prop === 'fetch') {
+              return {
+                value: fetchValue,
+                writable: true,
+                enumerable: true,
+                configurable: true
+              };
+            }
+            return Reflect.getOwnPropertyDescriptor(target, prop);
+          }
+        });
+
+        // Redirect all window aliases to the proxy
+        try {
+          Object.defineProperty(window, 'window', { value: globalProxy, configurable: true, writable: true, enumerable: true });
+        } catch (e) {}
+        try {
+          Object.defineProperty(window, 'self', { value: globalProxy, configurable: true, writable: true, enumerable: true });
+        } catch (e) {}
+        try {
+          Object.defineProperty(window, 'globalThis', { value: globalProxy, configurable: true, writable: true, enumerable: true });
+        } catch (e) {}
+
+        // Add a global error filter for extra safety
+        window.addEventListener('error', function(e) {
+          if (e && e.message && (
+            e.message.indexOf("Cannot set property fetch") !== -1 ||
+            e.message.indexOf("only a getter") !== -1 ||
+            e.message.indexOf("fetch") !== -1
+          )) {
+            e.preventDefault();
+            e.stopPropagation();
+            return true;
+          }
+        }, true);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Meu Plano Financeiro - PWA</title>
+    
+    <!-- PWA configuration -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#090d16" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Meu Plano" />
+    <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/000000/piggy-bank.png" />
+  </head>
+  <body class="bg-[#090d16] text-slate-100 selection:bg-teal-500 selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('Service Worker registrado:', reg.scope))
+            .catch(err => console.error('Erro ao registrar Service Worker:', err));
+        });
+      }
+    </script>
+  </body>
+</html>
+
