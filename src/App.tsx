@@ -295,7 +295,7 @@ export default function App() {
       setPassword('');
       setFullName('');
     } catch (err: any) {
-      alert(err.message);
+      alert("Não foi possível concluir o cadastro. Tente novamente.");
     }
   };
 
