@@ -4,36 +4,63 @@ import { DbSchema, User, Category, Income, Expense, MonthlyBudget, BudgetItem, G
 import { supabaseDbManager, isSupabaseConfigured } from './supabaseDb.ts';
 
 
-const DB_DIR = process.env.VERCEL
+let DB_DIR = process.env.VERCEL
   ? path.join('/tmp', 'data')
   : path.join(process.cwd(), 'data');
-const DB_FILE = path.join(DB_DIR, 'database.json');
+let DB_FILE = path.join(DB_DIR, 'database.json');
 
 // Ensure the directory and file exist with initial schema
 function initializeDb() {
-  if (!fs.existsSync(DB_DIR)) {
-    fs.mkdirSync(DB_DIR, { recursive: true });
+  try {
+    if (!fs.existsSync(DB_DIR)) {
+      fs.mkdirSync(DB_DIR, { recursive: true });
+    }
+  } catch (err: any) {
+    console.error(`Failed to create DB_DIR at ${DB_DIR}:`, err);
+    // If it's a read-only filesystem error or other write error, fall back to /tmp
+    if (DB_DIR !== path.join('/tmp', 'data')) {
+      console.warn("Falling back to /tmp/data for writeable database directory.");
+      DB_DIR = path.join('/tmp', 'data');
+      DB_FILE = path.join(DB_DIR, 'database.json');
+      try {
+        if (!fs.existsSync(DB_DIR)) {
+          fs.mkdirSync(DB_DIR, { recursive: true });
+        }
+      } catch (innerErr) {
+        console.error("Critical: Failed to create fallback database directory in /tmp:", innerErr);
+      }
+    }
   }
 
-  if (!fs.existsSync(DB_FILE)) {
-    const initialSchema: DbSchema = {
-      users: [],
-      categories: [],
-      incomes: [],
-      expenses: [],
-      monthly_budgets: [],
-      budget_items: [],
-      goals: [],
-      goal_contributions: [],
-      notifications: [],
-      push_subscriptions: [],
-      recurring_items: [],
-      ai_conversations: [],
-      ai_messages: [],
-      sync_operations: [],
-      audit_logs: []
-    };
-    fs.writeFileSync(DB_FILE, JSON.stringify(initialSchema, null, 2), 'utf-8');
+  try {
+    if (!fs.existsSync(DB_FILE)) {
+      const initialSchema: DbSchema = {
+        users: [],
+        categories: [],
+        incomes: [],
+        expenses: [],
+        monthly_budgets: [],
+        budget_items: [],
+        goals: [],
+        goal_contributions: [],
+        notifications: [],
+        push_subscriptions: [],
+        recurring_items: [],
+        ai_conversations: [],
+        ai_messages: [],
+        sync_operations: [],
+        audit_logs: []
+      };
+      fs.writeFileSync(DB_FILE, JSON.stringify(initialSchema, null, 2), 'utf-8');
+    }
+  } catch (err) {
+    console.error(`Failed to write DB_FILE at ${DB_FILE}:`, err);
+    // If fallback is needed
+    if (DB_DIR !== path.join('/tmp', 'data')) {
+      DB_DIR = path.join('/tmp', 'data');
+      DB_FILE = path.join(DB_DIR, 'database.json');
+      initializeDb(); // retry with /tmp
+    }
   }
 }
 
@@ -41,8 +68,8 @@ function initializeDb() {
 let writeQueue: Promise<void> = Promise.resolve();
 
 async function readDb(): Promise<DbSchema> {
-  initializeDb();
   try {
+    initializeDb();
     const data = await fs.promises.readFile(DB_FILE, 'utf-8');
     return JSON.parse(data) as DbSchema;
   } catch (error) {
@@ -68,10 +95,10 @@ async function readDb(): Promise<DbSchema> {
 }
 
 async function writeDb(schema: DbSchema): Promise<void> {
-  initializeDb();
   // We utilize a promise chain queue to ensure writes are synchronous and serialize-safe
   writeQueue = writeQueue.then(async () => {
     try {
+      initializeDb();
       const tempFile = `${DB_FILE}.tmp`;
       await fs.promises.writeFile(tempFile, JSON.stringify(schema, null, 2), 'utf-8');
       await fs.promises.rename(tempFile, DB_FILE);

@@ -236,12 +236,18 @@ export default function App() {
         body: JSON.stringify({ email, senha: password })
       });
 
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || "Erro ao efetuar login");
+      const text = await res.text();
+      let data: any;
+      try {
+        data = JSON.parse(text);
+      } catch (_) {
+        throw new Error(text ? text.substring(0, 150) : `Erro HTTP ${res.status}`);
       }
 
-      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || data.error || "Erro ao efetuar login");
+      }
+
       localStorage.setItem('user_token', data.token);
       setToken(data.token);
       setEmail('');
@@ -260,12 +266,18 @@ export default function App() {
         body: JSON.stringify({ email, senha: password, nome: fullName })
       });
 
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || "Erro no cadastro");
+      const text = await res.text();
+      let data: any;
+      try {
+        data = JSON.parse(text);
+      } catch (_) {
+        throw new Error(text ? text.substring(0, 150) : `Erro HTTP ${res.status}`);
       }
 
-      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || data.error || "Erro no cadastro");
+      }
+
       localStorage.setItem('user_token', data.token);
       setToken(data.token);
       setEmail('');
