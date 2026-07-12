@@ -4,7 +4,9 @@ import { DbSchema, User, Category, Income, Expense, MonthlyBudget, BudgetItem, G
 import { supabaseDbManager, isSupabaseConfigured } from './supabaseDb.ts';
 
 
-const DB_DIR = path.join(process.cwd(), 'data');
+const DB_DIR = process.env.VERCEL
+  ? path.join('/tmp', 'data')
+  : path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DB_DIR, 'database.json');
 
 // Ensure the directory and file exist with initial schema
