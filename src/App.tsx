@@ -744,7 +744,7 @@ export default function App() {
           {/* MAIN PAGE BODY (HEADER + CONTENT FRAME) */}
           <div className="flex-1 flex flex-col min-w-0" id="main-content-scroller">
             {/* WORKSPACE APP HEADER */}
-            <header className="bg-slate-950/60 border-b border-slate-900 p-4 px-6 flex items-center justify-between sticky top-0 z-40 backdrop-blur-md" id="app-header-workspace">
+            <header className="bg-slate-950/60 border-b border-slate-900 pb-4 px-4 pt-[calc(env(safe-area-inset-top,0px)+1rem)] md:p-4 md:px-6 flex items-center justify-between sticky top-0 z-40 backdrop-blur-md" id="app-header-workspace">
               <div className="flex items-center gap-3">
                 <button 
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
