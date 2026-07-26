@@ -1,4 +1,4 @@
-const CACHE_NAME = 'meu-plano-v1';
+const CACHE_NAME = 'meu-plano-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
