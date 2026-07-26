@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   PiggyBank, Calendar, Trophy, ChevronRight, Plus, Save, 
-  Trash2, TrendingUp, CheckCircle, Clock, Sparkles, PlusCircle 
+  Trash2, TrendingUp, CheckCircle, Clock, Sparkles, PlusCircle, Loader2 
 } from 'lucide-react';
 import type { Goal, GoalContribution } from '../types/finance.ts';
 
@@ -23,6 +23,8 @@ export default function Goals({
 }: GoalsProps) {
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedGoalForContrib, setSelectedGoalForContrib] = useState<Goal | null>(null);
+  const [isCreatingGoal, setIsCreatingGoal] = useState(false);
+  const [isAddingContrib, setIsAddingContrib] = useState(false);
 
   // Form Fields
   const [nome, setNome] = useState('');
@@ -45,6 +47,7 @@ export default function Goals({
       return;
     }
 
+    setIsCreatingGoal(true);
     try {
       await onCreateGoal({
         nome,
@@ -64,6 +67,8 @@ export default function Goals({
       setShowAddForm(false);
     } catch (error: any) {
       alert(error.message);
+    } finally {
+      setIsCreatingGoal(false);
     }
   };
 
@@ -71,6 +76,7 @@ export default function Goals({
     e.preventDefault();
     if (!selectedGoalForContrib || !contribVal) return;
 
+    setIsAddingContrib(true);
     try {
       await onCreateGoalContribution(selectedGoalForContrib.id, {
         valor: Number(contribVal),
@@ -81,6 +87,8 @@ export default function Goals({
       setSelectedGoalForContrib(null);
     } catch (error: any) {
       alert(error.message);
+    } finally {
+      setIsAddingContrib(false);
     }
   };
 
@@ -161,8 +169,19 @@ export default function Goals({
             </div>
           </div>
 
-          <button type="submit" className="w-full py-2.5 bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-bold rounded-xl shadow-md">
-            Confirmar e Iniciar Meta
+          <button 
+            type="submit" 
+            disabled={isCreatingGoal}
+            className="w-full py-2.5 bg-teal-500 hover:bg-teal-400 disabled:opacity-60 text-slate-950 text-xs font-bold rounded-xl shadow-md flex items-center justify-center gap-2"
+          >
+            {isCreatingGoal ? (
+              <>
+                <Loader2 size={16} className="animate-spin text-slate-950" />
+                <span>Criando meta... Aguarde um instante</span>
+              </>
+            ) : (
+              <span>Confirmar e Iniciar Meta</span>
+            )}
           </button>
         </form>
       )}
@@ -202,8 +221,19 @@ export default function Goals({
               </select>
             </div>
           </div>
-          <button type="submit" className="w-full py-2 bg-gradient-to-r from-teal-500 to-emerald-400 text-slate-950 font-bold text-xs rounded-xl shadow-lg shadow-teal-500/10">
-            Confirmar Depósito / Contribuição
+          <button 
+            type="submit" 
+            disabled={isAddingContrib}
+            className="w-full py-2 bg-gradient-to-r from-teal-500 to-emerald-400 disabled:opacity-60 text-slate-950 font-bold text-xs rounded-xl shadow-lg shadow-teal-500/10 flex items-center justify-center gap-2"
+          >
+            {isAddingContrib ? (
+              <>
+                <Loader2 size={16} className="animate-spin text-slate-950" />
+                <span>Registrando depósito... Aguarde um instante</span>
+              </>
+            ) : (
+              <span>Confirmar Depósito / Contribuição</span>
+            )}
           </button>
         </form>
       )}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   PiggyBank, LayoutDashboard, ArrowRightLeft, Target, 
-  Sparkles, Bell, Wifi, WifiOff, LogOut, Menu, X, Landmark, RefreshCw, Database
+  Sparkles, Bell, Wifi, WifiOff, LogOut, Menu, X, Landmark, RefreshCw, Database, Loader2
 } from 'lucide-react';
 
 import LandingPage from './components/LandingPage.tsx';
@@ -34,6 +34,7 @@ export default function App() {
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [authError, setAuthError] = useState('');
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
 
   // Core Finance states
   const [categories, setCategories] = useState<Category[]>([]);
@@ -229,9 +230,10 @@ export default function App() {
     }
   };
 
-    const handleLoginSubmit = async (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError('');
+    setIsAuthLoading(true);
     try {
       const res = await fetch('/api/users/login', {
         method: 'POST',
@@ -260,12 +262,15 @@ export default function App() {
       setPassword('');
     } catch (err: any) {
       setAuthError(err.message || "Não foi possível efetuar o login. O servidor apresentou uma falha interna.");
+    } finally {
+      setIsAuthLoading(false);
     }
   };
 
-    const handleRegisterSubmit = async (e: React.FormEvent) => {
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError('');
+    setIsAuthLoading(true);
     try {
       const res = await fetch('/api/users/register', {
         method: 'POST',
@@ -295,6 +300,8 @@ export default function App() {
       setFullName('');
     } catch (err: any) {
       setAuthError(err.message || "Não foi possível concluir o cadastro. O servidor apresentou uma falha interna.");
+    } finally {
+      setIsAuthLoading(false);
     }
   };
 
@@ -635,10 +642,18 @@ export default function App() {
 
               <button 
                 type="submit"
-                className="w-full py-3 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs rounded-xl transition duration-200 shadow-lg shadow-teal-500/10 mt-2"
+                disabled={isAuthLoading}
+                className="w-full py-3 bg-teal-500 hover:bg-teal-400 disabled:opacity-60 text-slate-950 font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition duration-200 shadow-lg shadow-teal-500/10 mt-2"
                 id="btn-auth-submit"
               >
-                {currentView === 'login' ? 'Entrar' : 'Cadastrar e Entrar'}
+                {isAuthLoading ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin text-slate-950 shrink-0" />
+                    <span>{currentView === 'login' ? 'Acessando conta... Aguarde um instante' : 'Criando conta... Aguarde um instante'}</span>
+                  </>
+                ) : (
+                  <span>{currentView === 'login' ? 'Entrar' : 'Cadastrar e Entrar'}</span>
+                )}
               </button>
             </form>
 

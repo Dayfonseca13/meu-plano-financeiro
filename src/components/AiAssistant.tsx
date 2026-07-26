@@ -29,6 +29,7 @@ export default function AiAssistant({
   const [messages, setMessages] = useState<any[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [actionLoadingId, setActionLoadingId] = useState<string | null>(null);
   const [conversationId, setConversationId] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -144,6 +145,7 @@ export default function AiAssistant({
   };
 
   const handleExecuteAction = async (action: any, msgId: string) => {
+    setActionLoadingId(msgId);
     try {
       if (action.type === 'create_expense') {
         const cat = categories.find(c => c.nome.toLowerCase() === action.data.categoriaNome.toLowerCase());
@@ -196,6 +198,8 @@ export default function AiAssistant({
       }));
     } catch (err: any) {
       alert("Erro ao executar ação recomendada pela IA: " + err.message);
+    } finally {
+      setActionLoadingId(null);
     }
   };
 
@@ -251,9 +255,17 @@ export default function AiAssistant({
                     </div>
                     <button 
                       onClick={() => handleExecuteAction(actionDetails.actionObj, m.id)}
-                      className="w-full py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-bold text-xs rounded-xl transition shadow-md shadow-purple-500/10"
+                      disabled={actionLoadingId === m.id}
+                      className="w-full py-2 bg-gradient-to-r from-purple-500 to-indigo-500 disabled:opacity-60 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition shadow-md shadow-purple-500/10"
                     >
-                      Sim, Confirmar e Salvar!
+                      {actionLoadingId === m.id ? (
+                        <>
+                          <Loader2 size={14} className="animate-spin text-white" />
+                          <span>Executando... Aguarde um instante</span>
+                        </>
+                      ) : (
+                        <span>Sim, Confirmar e Salvar!</span>
+                      )}
                     </button>
                   </div>
                 )}
@@ -271,13 +283,16 @@ export default function AiAssistant({
         })}
 
         {loading && (
-          <div className="flex gap-3 max-w-sm">
+          <div className="flex gap-3 max-w-sm animate-pulse">
             <div className="p-2.5 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl shrink-0">
               <Bot size={15} />
             </div>
-            <div className="p-3 bg-slate-900/60 border border-slate-800 rounded-2xl text-xs text-slate-400 flex items-center gap-2">
-              <Loader2 size={14} className="animate-spin text-teal-400" />
-              <span>O assistente está pensando...</span>
+            <div className="p-3.5 bg-slate-900/60 border border-teal-500/30 rounded-2xl text-xs text-teal-300 flex items-center gap-2.5 shadow-md">
+              <Loader2 size={16} className="animate-spin text-teal-400 shrink-0" />
+              <div>
+                <p className="font-bold">Analisando dados...</p>
+                <p className="text-[10px] text-slate-400">Aguarde um instante enquanto o assistente processa sua resposta.</p>
+              </div>
             </div>
           </div>
         )}

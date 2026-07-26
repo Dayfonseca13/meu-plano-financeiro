@@ -54,6 +54,7 @@ export default function Onboarding({ categories, token, onComplete }: Onboarding
   // Natural Language Planning
   const [planningText, setPlanningText] = useState('');
   const [loadingAi, setLoadingAi] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [aiProposal, setAiProposal] = useState<any | null>(null);
 
   const toggleObjetivo = (id: string) => {
@@ -121,22 +122,28 @@ export default function Onboarding({ categories, token, onComplete }: Onboarding
     setAiProposal({ ...aiProposal, items: newItems });
   };
 
-  const handleFinish = () => {
-    // Collect and format all data to save
-    const filteredFixed = despesasFixas.filter(d => d.valor > 0);
-    onComplete({
-      rendaMensal,
-      rendaVariavel,
-      diaRecebimento,
-      objetivos,
-      despesasFixas: filteredFixed,
-      budget: aiProposal ? {
-        rendaPlanejada: Number(aiProposal.rendaPlanejada),
-        reservaPlanejada: Number(aiProposal.reservaPlanejada),
-        margemImprevistos: Number(aiProposal.margemImprevistos),
-        items: aiProposal.items
-      } : undefined
-    });
+  const handleFinish = async () => {
+    setIsSaving(true);
+    try {
+      // Collect and format all data to save
+      const filteredFixed = despesasFixas.filter(d => d.valor > 0);
+      await onComplete({
+        rendaMensal,
+        rendaVariavel,
+        diaRecebimento,
+        objetivos,
+        despesasFixas: filteredFixed,
+        budget: aiProposal ? {
+          rendaPlanejada: Number(aiProposal.rendaPlanejada),
+          reservaPlanejada: Number(aiProposal.reservaPlanejada),
+          margemImprevistos: Number(aiProposal.margemImprevistos),
+          items: aiProposal.items
+        } : undefined
+      });
+    } catch (err) {
+      console.error(err);
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -395,15 +402,26 @@ export default function Onboarding({ categories, token, onComplete }: Onboarding
                   id="onboarding-ai-textarea"
                 />
                 
-                <div className="flex items-center gap-2.5 p-3 bg-purple-500/10 text-purple-300 text-xs rounded-xl border border-purple-500/20">
-                  <Sparkles size={16} className="shrink-0" />
-                  <span>Nossa Inteligência Artificial lerá seu texto, separará as categorias, calculará os percentuais e sugerirá um limite para cada uma delas.</span>
-                </div>
+                {loadingAi ? (
+                  <div className="p-3 bg-purple-500/10 border border-purple-500/30 rounded-xl text-xs text-purple-300 flex items-center gap-2.5 animate-pulse" id="ai-loading-banner">
+                    <Loader2 size={18} className="animate-spin text-purple-400 shrink-0" />
+                    <div>
+                      <p className="font-bold">Processando seu texto com Inteligência Artificial...</p>
+                      <p className="text-[10px] text-purple-300/80">Por favor, aguarde um instante enquanto calculamos suas categorias e metas.</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2.5 p-3 bg-purple-500/10 text-purple-300 text-xs rounded-xl border border-purple-500/20">
+                    <Sparkles size={16} className="shrink-0" />
+                    <span>Nossa Inteligência Artificial lerá seu texto, separará as categorias, calculará os percentuais e sugerirá um limite para cada uma delas.</span>
+                  </div>
+                )}
 
                 <div className="flex gap-3 pt-2">
                   <button 
                     onClick={() => setStep(4)}
-                    className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl transition"
+                    disabled={loadingAi}
+                    className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-white font-semibold rounded-xl transition"
                     id="btn-back-step-5"
                   >
                     Voltar
@@ -417,7 +435,7 @@ export default function Onboarding({ categories, token, onComplete }: Onboarding
                     {loadingAi ? (
                       <>
                         <Loader2 size={16} className="animate-spin" />
-                        Interpretando...
+                        Aguarde um instante...
                       </>
                     ) : (
                       <>
@@ -480,17 +498,28 @@ export default function Onboarding({ categories, token, onComplete }: Onboarding
                 <div className="flex gap-2.5 pt-1">
                   <button 
                     onClick={() => setAiProposal(null)}
-                    className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl text-xs transition"
+                    disabled={isSaving}
+                    className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-slate-300 font-semibold rounded-xl text-xs transition"
                   >
                     Nova Descrição
                   </button>
                   <button 
                     onClick={handleFinish}
-                    className="flex-1 py-3 bg-gradient-to-r from-teal-500 to-emerald-400 text-slate-950 font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 transition shadow-lg shadow-teal-500/10"
+                    disabled={isSaving}
+                    className="flex-1 py-3 bg-gradient-to-r from-teal-500 to-emerald-400 disabled:opacity-60 text-slate-950 font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 transition shadow-lg shadow-teal-500/10"
                     id="btn-complete-onboarding"
                   >
-                    <CheckCircle2 size={16} />
-                    Confirmar e Salvar
+                    {isSaving ? (
+                      <>
+                        <Loader2 size={16} className="animate-spin text-slate-950" />
+                        <span>Salvando... Aguarde um instante</span>
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle2 size={16} />
+                        <span>Confirmar e Salvar</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </div>

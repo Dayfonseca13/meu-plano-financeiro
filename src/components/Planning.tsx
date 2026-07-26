@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   PiggyBank, ArrowRight, ShieldCheck, CheckCircle2, AlertTriangle, 
-  PlusCircle, Edit2, Bookmark, Save, Trash2, ArrowUpRight, FolderPlus 
+  PlusCircle, Edit2, Bookmark, Save, Trash2, ArrowUpRight, FolderPlus, Loader2
 } from 'lucide-react';
 import type { Category, Expense, MonthlyBudget, BudgetItem } from '../types/finance.ts';
 
@@ -39,6 +39,8 @@ export default function Planning({
   const [newCatIcon, setNewCatIcon] = useState('Bookmark');
   const [newCatLimit, setNewCatLimit] = useState('');
   const [showAddCat, setShowAddCat] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isCreatingCat, setIsCreatingCat] = useState(false);
 
   // Load existing budget if any
   useEffect(() => {
@@ -88,6 +90,7 @@ export default function Planning({
       };
     });
 
+    setIsSaving(true);
     try {
       await onSaveBudget(budgetPayload, itemsPayload);
       
@@ -99,6 +102,8 @@ export default function Planning({
       alert("Planejamento de limites salvo com sucesso!");
     } catch (error: any) {
       alert("Erro ao salvar planejamento: " + error.message);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -106,6 +111,7 @@ export default function Planning({
     e.preventDefault();
     if (!newCatName) return;
 
+    setIsCreatingCat(true);
     try {
       await onCreateCategory({
         nome: newCatName,
@@ -121,6 +127,8 @@ export default function Planning({
       setShowAddCat(false);
     } catch (error: any) {
       alert(error.message);
+    } finally {
+      setIsCreatingCat(false);
     }
   };
 
@@ -209,9 +217,20 @@ export default function Planning({
         </button>
         <button 
           onClick={handleSaveAll}
-          className="px-6 py-2.5 bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-xs rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-teal-500/10"
+          disabled={isSaving}
+          className="px-6 py-2.5 bg-teal-500 hover:bg-teal-400 disabled:opacity-60 text-slate-950 font-black text-xs rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-teal-500/10"
         >
-          <Save size={15} /> Salvar Orçamento
+          {isSaving ? (
+            <>
+              <Loader2 size={15} className="animate-spin text-slate-950" />
+              <span>Salvando orçamento... Aguarde um instante</span>
+            </>
+          ) : (
+            <>
+              <Save size={15} />
+              <span>Salvar Orçamento</span>
+            </>
+          )}
         </button>
       </div>
 
@@ -248,8 +267,19 @@ export default function Planning({
               <option value="Gamepad2">Controle (Lazer)</option>
             </select>
           </div>
-          <button type="submit" className="w-full py-2 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs rounded-xl">
-            Confirmar e Criar Categoria
+          <button 
+            type="submit" 
+            disabled={isCreatingCat}
+            className="w-full py-2 bg-teal-500 hover:bg-teal-400 disabled:opacity-60 text-slate-950 font-bold text-xs rounded-xl flex items-center justify-center gap-2"
+          >
+            {isCreatingCat ? (
+              <>
+                <Loader2 size={14} className="animate-spin text-slate-950" />
+                <span>Criando categoria... Aguarde um instante</span>
+              </>
+            ) : (
+              <span>Confirmar e Criar Categoria</span>
+            )}
           </button>
         </form>
       )}

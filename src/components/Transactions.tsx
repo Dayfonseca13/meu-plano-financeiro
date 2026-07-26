@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   Plus, Calendar, CreditCard, ChevronDown, Check, Trash2, Edit2, 
-  Layers, ArrowUpRight, ArrowDownRight, Tag, Bookmark, MapPin, Sparkles, Filter 
+  Layers, ArrowUpRight, ArrowDownRight, Tag, Bookmark, MapPin, Sparkles, Filter, Loader2
 } from 'lucide-react';
 import type { Income, Expense, Category } from '../types/finance.ts';
 
@@ -32,6 +32,7 @@ export default function Transactions({
   const [activeTab, setActiveTab] = useState<'expenses' | 'incomes'>('expenses');
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingItem, setEditingItem] = useState<any | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Filters state
   const [filterCategory, setFilterCategory] = useState('');
@@ -144,6 +145,7 @@ export default function Transactions({
       payload.dataPrevista = dataVencimento;
     }
 
+    setIsSubmitting(true);
     try {
       if (editingItem) {
         if (editingItem.grupoRecorrencia) {
@@ -166,6 +168,8 @@ export default function Transactions({
       resetForm();
     } catch (err: any) {
       alert(err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -174,11 +178,9 @@ export default function Transactions({
       setSequenceAction({ type: 'delete', item });
     } else {
       if (window.confirm("Deseja realmente excluir este lançamento?")) {
-        if (activeTab === 'expenses') {
-          onDeleteExpense(item.id, 'single');
-        } else {
-          onDeleteIncome(item.id, 'single');
-        }
+        setIsSubmitting(true);
+        const action = activeTab === 'expenses' ? onDeleteExpense(item.id, 'single') : onDeleteIncome(item.id, 'single');
+        action.catch((err: any) => alert(err.message)).finally(() => setIsSubmitting(false));
       }
     }
   };
@@ -187,6 +189,7 @@ export default function Transactions({
     if (!sequenceAction) return;
     const { type, item, updates } = sequenceAction;
 
+    setIsSubmitting(true);
     try {
       if (type === 'edit') {
         if (activeTab === 'expenses') {
@@ -205,6 +208,8 @@ export default function Transactions({
       resetForm();
     } catch (err: any) {
       alert(err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -500,10 +505,18 @@ export default function Transactions({
 
             <button 
               type="submit"
-              className={`w-full py-3 rounded-xl font-bold text-xs transition duration-200 text-slate-950 ${activeTab === 'expenses' ? 'bg-rose-400 hover:bg-rose-300' : 'bg-teal-400 hover:bg-teal-300'}`}
+              disabled={isSubmitting}
+              className={`w-full py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition duration-200 disabled:opacity-60 text-slate-950 ${activeTab === 'expenses' ? 'bg-rose-400 hover:bg-rose-300' : 'bg-teal-400 hover:bg-teal-300'}`}
               id="btn-save-transaction"
             >
-              Confirmar e Gravar
+              {isSubmitting ? (
+                <>
+                  <Loader2 size={16} className="animate-spin text-slate-950" />
+                  <span>Gravando lançamento... Aguarde um instante</span>
+                </>
+              ) : (
+                <span>Confirmar e Gravar</span>
+              )}
             </button>
           </form>
         </div>
