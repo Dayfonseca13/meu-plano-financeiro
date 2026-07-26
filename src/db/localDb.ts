@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import type { DbSchema, User, Category, Income, Expense, MonthlyBudget, BudgetItem, Goal, GoalContribution, Notification, PushSubscriptionModel, RecurringItem, AiConversation, AiMessage, SyncOperation, AuditLog } from '../types/finance.ts';
-import { supabaseDbManager, isSupabaseConfigured } from './supabaseDb.js';
-import { defaultCategories } from './constants.js';
+import { supabaseDbManager, isSupabaseConfigured } from './supabaseDb.ts';
+import { defaultCategories } from './constants.ts';
 
 
 let DB_DIR = process.env.VERCEL
@@ -598,7 +598,7 @@ export const dbManager = new Proxy(localDbManager, {
             }
             return result;
           } catch (error: any) {
-            console.warn(`[Supabase Fallback] Method "${String(prop)}" defaulted gracefully to localDb. This is expected if Supabase tables have not been initialized yet or credentials are inactive. Error detail: ${error?.message || JSON.stringify(error)}`);
+            console.log(`[Supabase Fallback] Method "${String(prop)}" defaulted to localDb.`);
           }
         }
         return localMethod.apply(this, args);

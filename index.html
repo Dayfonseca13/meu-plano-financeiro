@@ -1,22 +1,6 @@
 <!doctype html>
 <html lang="pt-BR">
   <head>
-    <script>
-      // Allow assigning to window.fetch without throwing in strict mode
-      (function() {
-        var originalFetch = window.fetch;
-        try {
-          Object.defineProperty(window, 'fetch', {
-            get: function() { return originalFetch; },
-            set: function(val) { /* ignore or use new val, but don't throw */ originalFetch = val || originalFetch; },
-            configurable: true,
-            enumerable: true
-          });
-        } catch(e) {}
-      })();
-    </script>
-
-    
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Meu Plano Financeiro - PWA</title>
@@ -44,4 +28,3 @@
     </script>
   </body>
 </html>
-
