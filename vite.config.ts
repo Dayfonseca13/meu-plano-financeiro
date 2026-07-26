@@ -21,6 +21,9 @@ export default defineConfig(() => {
           if (newCode.includes('window.fetch =')) {
             newCode = newCode.replace(/window\.fetch\s*=/g, 'window.__dummyFetch =');
           }
+          if (newCode.includes('globalThis.fetch =')) {
+            newCode = newCode.replace(/globalThis\.fetch\s*=/g, 'globalThis.__dummyFetch =');
+          }
           if (newCode !== code) {
             return { code: newCode, map: null };
           }
